@@ -20,7 +20,7 @@
     <div role="option" aria-selected="false" tabindex="-1">Wednesday</div>
     <div role="option" aria-selected="false" tabindex="-1">Thursday</div>
     <div role="option" aria-selected="false" tabindex="-1">Friday</div>
-    <div role="option" tabindex="-1">Saturday</div>
+    <div role="option" aria-selected="false" tabindex="-1">Saturday</div>
   </div>
 </div>
 
@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", function() {
   week.forEach((day, index) => {
     day.addEventListener("keydown", navigation);
     day.addEventListener("click", setActiveItem);
-    day.addEventListener("focus", setTabIndex);
     day.setAttribute("data-index", index);
   });
 
