@@ -1,60 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <title>List box example</title>
-<!-- <link rel="stylesheet" href="Listbox.css"> -->
+<link rel="stylesheet" href="Listbox.css">
 </head>
+
 <body>
 
 <h2>List box example</h2>
 
-<span id = "days">Week Days</span>
+<span id="days">Week Days</span>
 
-    <div role="listbox" aria-labelledby="days">
-<br>
-    <div class="week-list" aria-labelledby="days">    
-        <div role="option" aria-selected="true" tabindex="0">Sunday</div>
-        <div role="option" tabindex="-1">Monday</div>
-        <div role="option" tabindex="-1">Tuesday</div>
-        <div role="option" tabindex="-1">Wednesday</div>
-        <div role="option" tabindex="-1">Thursday</div>
-        <div role="option" tabindex="-1">Friday</div>
-        <div role="option" tabindex="-1">Saturday</div>
-    </div>
-    </div>
+<div role="listbox" aria-labelledby="days">
+  <br>
+  <div class="week-list" aria-labelledby="days">    
+    <div role="option" aria-selected="true" tabindex="0">Sunday</div>
+    <div role="option" aria-selected="false" tabindex="-1">Monday</div>
+    <div role="option" aria-selected="false" tabindex="-1">Tuesday</div>
+    <div role="option" aria-selected="false" tabindex="-1">Wednesday</div>
+    <div role="option" aria-selected="false" tabindex="-1">Thursday</div>
+    <div role="option" aria-selected="false" tabindex="-1">Friday</div>
+    <div role="option" tabindex="-1">Saturday</div>
+  </div>
+</div>
 
 <script>
-let weekitems = document.querySelectorAll('[role="option"]');
+document.addEventListener("DOMContentLoaded", function() {
+  let week = document.querySelectorAll('[role="option"]');
+  week.forEach((day, index) => {
+    day.addEventListener("keydown", navigation);
+    day.addEventListener("click", setActiveItem);
+    day.addEventListener("focus", setTabIndex);
+    day.setAttribute("data-index", index);
+  });
 
-weekitems.forEach((day)=>{
-    day.addEventListener("keydown",navigation);
-})
-// weekitems.addEventListener("keydown", navigation);
+  function navigation(e) {
+    let target = e.key;
+    let currentIndex = parseInt(this.getAttribute("data-index"));
+    let nextIndex = (target === "ArrowDown") ? currentIndex + 1 : (target === "ArrowUp") ? currentIndex - 1 : currentIndex;
 
-function navigation(e)   {
-    let target = e.target;
-    let nextTarget = target.nextElementSibling;
-    let currentTarget = e.target;
-    let prevTarget = currentTarget.previousElementSibling;
-    
-    if (e.key === "ArrowDown"){
-        target.setAttribute("tabindex", "-1");
-        // target.removeAttribute("aria-selected");
-        nextTarget.setAttribute("tabindex","0");
-        // nextTarget.setAttribute("aria-selected","true");
-        nextTarget.focus();
+    if (nextIndex >= 0 && nextIndex < week.length) {
+      week[currentIndex].removeAttribute("tabindex");
+      week[currentIndex].removeAttribute("aria-selected");
+
+      week[nextIndex].setAttribute("tabindex", "0");
+      week[nextIndex].setAttribute("aria-selected", "true");
+      week[nextIndex].focus();
     }
 
-    if (e.key === "ArrowUp"){
-        currentTarget.setAttribute("tabindex", "-1");
-        // currentTarget.removeAttribute("aria-selected");
-        prevTarget.setAttribute("tabindex","0");
-        // prevTarget.setAttribute("aria-selected","false");
-        prevTarget.focus();
+    if (target === "ArrowDown" || target === "ArrowUp") {
+      e.preventDefault();
     }
+  }
 
-}
+  function setActiveItem(e) {
+    let clickItem = e.target;
+    week.forEach((day) => {
+      if (day === clickItem) {
+        day.setAttribute("tabindex", "0");
+        day.setAttribute("aria-selected", "true");
+        day.focus();
+      } else {
+        day.removeAttribute("tabindex");
+        day.removeAttribute("aria-selected");
+      }
+    });
+  }
+
+  function setTabIndex(e) {
+    let focusItem = e.target;
+    week.forEach((day) => {
+      if (day === focusItem) {
+        day.setAttribute("tabindex", "0");
+      } else {
+        day.setAttribute("tabindex", "-1");
+      }
+    });
+  }
+});
 
 </script>
 </body>
