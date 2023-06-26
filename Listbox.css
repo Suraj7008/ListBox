@@ -1,0 +1,7 @@
+.week-list [aria-selected="true"] {
+  background-color: #eaeaea;
+  color: #000000;
+  font-weight: bold;
+  border: 2px solid #000000; 
+}
+
