@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>list box</title>
+
+</head>
+<style>
+  .listbox-item[aria-selected="true"] {
+    border: 2px solid #000;
+  }
+</style>
+<body>
+
+    <h2>listbox aria-activedescendant example</h2>
+    <div class="main content">
+      <label for="listbox" id="listbox-label"><b>Work Days</b></label>
+<br>
+            <div class="listbox" role="listbox" aria-labelledby="work Day" aria-activedescendant="sun">
+                <div id="sun" class="listbox-item" role="option" aria-selected="true">Sunday</div>
+                <div id="mon" class="listbox-item" role="option">Monday</div>
+                <div id="tue" class="listbox-item" role="option">Tuersday</div>
+                <div id="wed" class="listbox-item" role="option">Wednesday</div>
+                <div id="thu" class="listbox-item" role="option">Thursday</div>
+                <div id="fri" class="listbox-item" role="option">Friday</div>
+                <div id="sat" class="listbox-item" role="option">Saturday</div>
+            </div>
+    </div>
+
+<script>    
+
+let listbox = document.querySelector('.listbox');  
+let items = Array.from(listbox.children);
+// console.log(items)
+let activeItem = items.find(item => 
+    item.getAttribute('aria-selected') === 'true');
+    listbox.setAttribute('tabindex', '0');
+// console.log(activeItem)
+// listbox.setAttribute('role', 'listbox');
+// listbox.setAttribute('aria-labelledby', 'listbox-label');
+
+listbox.addEventListener('keydown', e => {
+  let currentIndex = items.indexOf(activeItem);
+// console.log(currentIndex)
+  if (e.key === 'ArrowUp' && currentIndex > 0) {
+    setActiveItem(items[currentIndex - 1]);
+    // e.preventDefault();
+  }
+
+  if (e.key === 'ArrowDown' && currentIndex < items.length - 1) {
+    setActiveItem(items[currentIndex + 1]);
+    // e.preventDefault();
+  }
+});
+
+listbox.addEventListener('click', e => {
+  let clickedItem = e.target;
+  if (clickedItem.classList.contains('listbox-item')) {
+    setActiveItem(clickedItem);
+  }
+});
+
+function setActiveItem(item) {
+  activeItem.removeAttribute('aria-selected');
+  activeItem.setAttribute('tabindex', '-1');
+  item.setAttribute('aria-selected', 'true');
+  item.removeAttribute('tabindex');
+  listbox.setAttribute('aria-activedescendant', item.id);
+  activeItem = item;
+}
+
+</script>
+</body>
+</html>
