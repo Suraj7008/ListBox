@@ -1,13 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>List box example</title>
-<link rel="stylesheet" href="Listbox.css">
+<title>Listbox tabindex example</title>
+<style>
+  /* Roving TabIndex */
+  .week-list [aria-selected="true"] {
+  background-color: #eaeaea;
+  color: #ff0000;
+  font-weight: bold;
+  border: 1px solid #000000; 
+}
+.roving-tabindex {
+  margin: auto;
+  width: 45%;
+  border: 3px solid #73AD21;
+  padding: 30px;
+  float: left;
+}
+/* aria-activedescendant */
+.listbox-item[aria-selected="true"] {
+    border: 2px solid #fd0000;
+  }
+.aria-activedescendant {
+  margin: auto;
+  width: 45%;
+  border: 3px solid #73AD21;
+  padding: 40px;
+  float: right;
+}
+</style>
 </head>
 
 <body>
-
-  <h2>Listbox tabindex example</h2>
+  <div class="roving-tabindex">
+  <!-- // Roving TabIndex -->
+  <h2>Listbox roving tabindex example</h2>
 
 <span id="days">Week Days</span>
 
@@ -23,8 +50,28 @@
     <div role="option" aria-selected="false" tabindex="-1">Saturday</div>
   </div>
 </div>
+</div>
+
+<!-- // aria-activedescendant -->
+<div class="aria-activedescendant">
+<h2>listbox aria-activedescendant example</h2>
+<div class="main content">
+  <label for="listbox" id="listbox-label"><b>Work Days</b></label>
+<br>
+        <div class="listbox" role="listbox" aria-labelledby="work Day" aria-activedescendant="sun">
+            <div id="sun" class="listbox-item" role="option" aria-selected="true">Sunday</div>
+            <div id="mon" class="listbox-item" role="option">Monday</div>
+            <div id="tue" class="listbox-item" role="option">Tuersday</div>
+            <div id="wed" class="listbox-item" role="option">Wednesday</div>
+            <div id="thu" class="listbox-item" role="option">Thursday</div>
+            <div id="fri" class="listbox-item" role="option">Friday</div>
+            <div id="sat" class="listbox-item" role="option">Saturday</div>
+        </div>
+</div>
+</div>
 
 <script>
+  // Roving TabIndex
 document.addEventListener("DOMContentLoaded", function() {
   let week = document.querySelectorAll('[role="option"]');
   week.forEach((day, index) => {
@@ -77,6 +124,42 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 });
+
+// aria-activedescendant
+let listbox = document.querySelector('.listbox');  
+let items = Array.from(listbox.children);
+let activeItem = items.find(item => 
+    item.getAttribute('aria-selected') === 'true');
+    listbox.setAttribute('tabindex', '0');
+
+listbox.addEventListener('keydown', e => {
+  let currentIndex = items.indexOf(activeItem);
+
+  if (e.key === 'ArrowUp' && currentIndex > 0) {
+    setActiveItem(items[currentIndex - 1]);
+  }
+
+  if (e.key === 'ArrowDown' && currentIndex < items.length - 1) {
+    setActiveItem(items[currentIndex + 1]);
+  }
+});
+
+listbox.addEventListener('click', e => {
+  let clickedItem = e.target;
+  if (clickedItem.classList.contains('listbox-item')) {
+    setActiveItem(clickedItem);
+  }
+});
+
+function setActiveItem(item) {
+  activeItem.removeAttribute('aria-selected');
+  activeItem.setAttribute('tabindex', '-1');
+  item.setAttribute('aria-selected', 'true');
+  item.removeAttribute('tabindex');
+  listbox.setAttribute('aria-activedescendant', item.id);
+  activeItem = item;
+}
+
 
 </script>
 </body>
