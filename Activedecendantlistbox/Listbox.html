@@ -31,22 +31,19 @@
 
 let listbox = document.querySelector('.listbox');  
 let items = Array.from(listbox.children);
-// console.log(items)
 let activeItem = items.find(item => 
     item.getAttribute('aria-selected') === 'true');
     listbox.setAttribute('tabindex', '0');
 
 listbox.addEventListener('keydown', e => {
   let currentIndex = items.indexOf(activeItem);
-// console.log(currentIndex)
+
   if (e.key === 'ArrowUp' && currentIndex > 0) {
     setActiveItem(items[currentIndex - 1]);
-    // e.preventDefault();
   }
 
   if (e.key === 'ArrowDown' && currentIndex < items.length - 1) {
     setActiveItem(items[currentIndex + 1]);
-    // e.preventDefault();
   }
 });
 
