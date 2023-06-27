@@ -7,7 +7,7 @@
 </head>
 <style>
   .listbox-item[aria-selected="true"] {
-    border: 2px solid #000;
+    border: 2px solid #fd0000;
   }
 </style>
 <body>
@@ -35,9 +35,6 @@ let items = Array.from(listbox.children);
 let activeItem = items.find(item => 
     item.getAttribute('aria-selected') === 'true');
     listbox.setAttribute('tabindex', '0');
-// console.log(activeItem)
-// listbox.setAttribute('role', 'listbox');
-// listbox.setAttribute('aria-labelledby', 'listbox-label');
 
 listbox.addEventListener('keydown', e => {
   let currentIndex = items.indexOf(activeItem);
