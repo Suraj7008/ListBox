@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Listbox tabindex example</title>
+<title>Listbox examples</title>
 <style>
   /* Roving TabIndex */
   .week-list [aria-selected="true"] {
@@ -29,6 +29,18 @@
     padding: 30px;
     float: right;
   }
+  /* aria-activedescendant multiselected */
+  .listbox-itemM[aria-selected="true"] {
+        border: 0.5px solid #000000;
+        font-weight: bold;
+    }
+    .multiselected {
+        margin: auto;
+        width: 45%;
+        border: 3px solid #73AD21;
+        padding: 30px;
+        float: right;
+    }
 </style>
 </head>
 
@@ -71,8 +83,29 @@
     </div>
   </div>
 
+  <!-- Multiselect -->
+  <div class="multiselected">
+    <h2>listbox aria-activedescendant multiselected example</h2>
+    <div class="main-content">
+        <label for="listbox" id="listbox-label-M"><b>Work Days aria-activedescendant Multiselect</b></label>
+          <br>
+            <div class="listboxM" role="listbox-M" aria-labelledby="listbox-label" aria-activedescendant="sun" tabindex="0">
+                <div id="sun" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Sunday</div>
+                <div id="mon" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Monday</div>
+                <div id="tue" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Tuesday</div>
+                <div id="wed" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Wednesday</div>
+                <div id="thu" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Thursday</div>
+                <div id="fri" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Friday</div>
+                <div id="sat" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Saturday</div>
+            </div>
+    </div>
+</div>
+
 <script>
+  document.addEventListener("DOMContentLoaded", rovingtabindex(), activedescendant(), Multiselectactivedescendant())
+
   // Roving TabIndex
+  function rovingtabindex() {
   document.addEventListener("DOMContentLoaded", function() {
     let week = document.querySelectorAll('.week-list [role="option"]');
     week.forEach((day, index) => {
@@ -114,22 +147,23 @@
       });
     }
   });
-
+}
   // aria-activedescendant
+  function activedescendant() {
   let listbox = document.querySelector('.listbox');  
   let items = Array.from(listbox.children);
   let activeItem = items.find(item => item.getAttribute('aria-selected') === 'true');
   listbox.setAttribute('tabindex', '0');
 
   listbox.addEventListener('keydown', e => {
-    let currentIndex = items.indexOf(activeItem);
+    let currentIndex1 = items.indexOf(activeItem);
 
-    if (e.key === 'ArrowUp' && currentIndex > 0) {
-      setActiveItem(items[currentIndex - 1]);
+    if (e.key === 'ArrowUp' && currentIndex1 > 0) {
+      setActiveItem(items[currentIndex1 - 1]);
     }
 
-    if (e.key === 'ArrowDown' && currentIndex < items.length - 1) {
-      setActiveItem(items[currentIndex + 1]);
+    if (e.key === 'ArrowDown' && currentIndex1 < items.length - 1) {
+      setActiveItem(items[currentIndex1 + 1]);
     }
   });
 
@@ -140,14 +174,53 @@
     }
   });
 
-  function setActiveItem(item) {
+  function setActiveItem(itemA) {
     activeItem.removeAttribute('aria-selected');
     activeItem.setAttribute('tabindex', '-1');
-    item.setAttribute('aria-selected', 'true');
-    item.removeAttribute('tabindex');
-    listbox.setAttribute('aria-activedescendant', item.id);
-    activeItem = item;
+    itemA.setAttribute('aria-selected', 'true');
+    itemA.removeAttribute('tabindex');
+    listbox.setAttribute('aria-activedescendant', itemA.id);
+    activeItem = itemA;
   }
+}
+  // Multiselect
+function Multiselectactivedescendant() {
+  let multiselectedlistbox = document.querySelector('.listboxM');
+  let multiselecteditems = Array.from(multiselectedlistbox.children);
+  multiselectedlistbox.setAttribute('role', 'listboxM');
+  multiselectedlistbox.setAttribute('tabindex', '0');
+  multiselectedlistbox.setAttribute('aria-labelledby', 'listbox-label');
+  multiselectedlistbox.addEventListener('keydown', e => {
+    let currentIndexM = multiselecteditems.findIndex(itemM => itemM === document.activeElement);
+    if (e.key === 'ArrowUp' && currentIndexM > 0) {
+      multiselecteditems[currentIndexM - 1].focus();
+    }
+
+    if (e.key === 'ArrowDown' && currentIndexM < multiselecteditems.length - 1) {
+      multiselecteditems[currentIndexM + 1].focus();
+    }
+
+    if (e.key === ' ' || e.key === 'Enter') {
+      toggleSelection(document.activeElement);
+    }
+  });
+
+  multiselectedlistbox.addEventListener('click', e => {
+    let clickedItemM = e.target;
+    if (clickedItemM.classList.contains('listbox-itemM')) {
+      toggleSelection(clickedItemM);
+    }
+  });
+  
+  function toggleSelection(itemM) {
+    let isSelected = itemM.getAttribute('aria-selected') === 'true';
+    if (isSelected) {
+      itemM.setAttribute('aria-selected', 'false');
+    } else {
+      itemM.setAttribute('aria-selected', 'true');
+    }
+  }
+ }
 </script>
 </body>
 </html>
