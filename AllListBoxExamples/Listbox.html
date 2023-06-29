@@ -68,10 +68,8 @@
     <h2>Listbox roving tabindex example</h2>
 
     <span id="days">Week Days roving tabindex</span>
-
-    <div role="listbox" aria-labelledby="days">
       <br>
-      <div class="week-list" aria-labelledby="days">    
+      <div class="week-list" aria-labelledby="days" role="listbox">    
         <div role="option" aria-selected="true" tabindex="0">Sunday</div>
         <div role="option" aria-selected="false" tabindex="-1">Monday</div>
         <div role="option" aria-selected="false" tabindex="-1">Tuesday</div>
@@ -90,14 +88,14 @@
       <label for="listbox" id="listbox-label"><b>Work Days aria-activedescendant</b></label>
       <br>
       <br>
-      <div class="listbox" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="sun">
-        <div id="sun" class="listbox-item" role="option" aria-selected="true">Sunday</div>
-        <div id="mon" class="listbox-item" role="option">Monday</div>
-        <div id="tue" class="listbox-item" role="option">Tuesday</div>
-        <div id="wed" class="listbox-item" role="option">Wednesday</div>
-        <div id="thu" class="listbox-item" role="option">Thursday</div>
-        <div id="fri" class="listbox-item" role="option">Friday</div>
-        <div id="sat" class="listbox-item" role="option">Saturday</div>
+      <div class="listbox" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="sunA">
+        <div id="sunA" class="listbox-item" role="option" aria-selected="true">Sunday</div>
+        <div id="monA" class="listbox-item" role="option">Monday</div>
+        <div id="tueA" class="listbox-item" role="option">Tuesday</div>
+        <div id="wedA" class="listbox-item" role="option">Wednesday</div>
+        <div id="thuA" class="listbox-item" role="option">Thursday</div>
+        <div id="friA" class="listbox-item" role="option">Friday</div>
+        <div id="satA" class="listbox-item" role="option">Saturday</div>
       </div>
     </div>
   </div>
@@ -109,14 +107,14 @@
         <label for="listbox" id="listbox-label-M"><b>Work Days aria-activedescendant Multiselect</b></label>
           <br>
           <br>
-            <div class="listboxM" role="listbox-M" aria-labelledby="listbox-label" aria-activedescendant="sun" tabindex="0">
-                <div id="sun" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Sunday</div>
-                <div id="mon" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Monday</div>
-                <div id="tue" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Tuesday</div>
-                <div id="wed" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Wednesday</div>
-                <div id="thu" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Thursday</div>
-                <div id="fri" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Friday</div>
-                <div id="sat" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Saturday</div>
+            <div class="listboxM" role="listbox-M" aria-labelledby="listbox-label" aria-activedescendant="sunM" tabindex="0">
+                <div id="sunM" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Sunday</div>
+                <div id="moM" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Monday</div>
+                <div id="tueM" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Tuesday</div>
+                <div id="wedM" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Wednesday</div>
+                <div id="thuM" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Thursday</div>
+                <div id="friM" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Friday</div>
+                <div id="satM" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Saturday</div>
             </div>
     </div>
 </div>
@@ -127,9 +125,7 @@
 
   <span id="daysRM">Week Days roving tabindex</span>
 
-  <div role="listboxRM" aria-labelledby="daysRM">
-    <br>
-    <div class="week-listRM" aria-labelledby="daysRM">
+    <div role="listbox" class="week-listRM" aria-labelledby="daysRM">
       <div role="option" aria-selected="true" tabindex="0">Sunday</div>
       <div role="option" aria-selected="false" tabindex="-1">Monday</div>
       <div role="option" aria-selected="false" tabindex="-1">Tuesday</div>
