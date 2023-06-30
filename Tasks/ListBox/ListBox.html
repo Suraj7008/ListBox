@@ -33,7 +33,7 @@
     <div class="main content">
       <h3><label for="listbox"><b>Work Days aria-activedescendant</b></label></h3>
 
-      <div class="listbox" role="listbox" aria-label="Work Days aria-activedescendant" aria-activedescendant="sunA">
+      <div class="listbox" role="listbox" aria-label="Work Days aria-activedescendant" aria-activedescendant="">
         <div id="sunA" class="listbox-item" role="option" aria-selected="true">Sunday</div>
         <div id="monA" class="listbox-item" role="option">Monday</div>
         <div id="tueA" class="listbox-item" role="option">Tuesday</div>
@@ -51,7 +51,7 @@
     <div class="main-content">
         <h3><label for="listbox"><b>Work Days aria-activedescendant Multiselect</b></label></h3>
 
-            <div class="listboxM" role="listbox-M" aria-label="Work Days aria-activedescendant Multiselect" aria-activedescendant="sunM" tabindex="0">
+            <div class="listboxM" role="listboxM" aria-label="Work Days aria-activedescendant Multiselect" aria-activedescendant="" tabindex="0">
                 <div id="sunM" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Sunday</div>
                 <div id="moM" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Monday</div>
                 <div id="tueM" class="listbox-itemM" role="option" aria-selected="false" tabindex="-1">Tuesday</div>
@@ -68,7 +68,7 @@
   <h2>Listbox roving tabindex Multiselect example</h2>
   <h3><label id="daysRM"> Week Days roving Multiselect tabindex </label></h3>
 
-    <div role="listbox" class="week-listRM" aria-labelledby="daysRM">
+    <div role="listbox" id="select" class="week-listRM" aria-labelledby="daysRM">
       <div role="option" aria-selected="true" tabindex="0">Sunday</div>
       <div role="option" aria-selected="false" tabindex="-1">Monday</div>
       <div role="option" aria-selected="false" tabindex="-1">Tuesday</div>

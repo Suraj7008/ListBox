@@ -152,7 +152,7 @@ selectedOptionsContainer.addEventListener('keydown', e => {
 
 function navigateListbox(key) {
 
-  let options = document.querySelectorAll('[role="option"]');
+  let options = document.querySelectorAll('#select [role="option"]');
   let currentIndexRM = Array.prototype.indexOf.call(options, document.activeElement);
 
   if (key === "ArrowUp" && currentIndexRM > 0) {
