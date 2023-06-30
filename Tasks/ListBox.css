@@ -1,0 +1,70 @@
+h1 {
+    padding-left: 45%;
+    margin: auto;
+    height: 60px;
+  }
+
+  /* Roving TabIndex */
+  .week-list [aria-selected="true"] {
+    background-color: #ffffff;
+    color: #000000;
+    font-weight: bold;
+    border: 0.5px solid #000000;
+  }
+
+  .roving-tabindex {
+    margin: auto;
+    width: 45%;
+    border: 3px solid #73AD21;
+    padding: 30px;
+    float: left;
+  }
+
+  /* aria-activedescendant */
+  .listbox-item[aria-selected="true"] {
+    background-color: #ffffff;
+    color: #000000;
+    font-weight: bold;
+    border: 0.5px solid #000000;
+  }
+
+  .aria-activedescendant {
+    margin: auto;
+    width: 45%;
+    border: 3px solid #73AD21;
+    padding: 20px;
+    float: right;
+  }
+
+  /* aria-activedescendant multiselected */
+  .listbox-itemM[aria-selected="true"] {
+    background-color: #ffffff;
+    color: #000000;
+    font-weight: bold;
+    border: 0.5px solid #000000;
+    }
+
+    .multiselected {
+        margin: auto;
+        width: 45%;
+        border: 3px solid #73AD21;
+        padding: 30px;
+        float: left;
+    }
+
+    /* Roving multiselected */
+    .week-listRM [aria-selected="true"] {
+    background-color: #ffffff;
+    color: #000000;
+    font-weight: bold;
+    border: 0.5px solid #000000;
+  }
+
+  .roving-tabindex-Multiselect {
+    margin: auto;
+    width: 45%;
+    border: 3px solid #73AD21;
+    padding: 20px;
+    float: right;
+    height: 80%
+  }
