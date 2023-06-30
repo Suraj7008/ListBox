@@ -82,93 +82,100 @@ function setActiveItem(itemA) {
 }
 // Multiselect
 function Multiselectactivedescendant() {
-let multiselectedlistbox = document.querySelector('.listboxM');
-let multiselecteditems = Array.from(multiselectedlistbox.children);
-
-multiselectedlistbox.setAttribute('role', 'listbox');
-multiselectedlistbox.setAttribute('tabindex', '0');
-multiselectedlistbox.setAttribute('aria-labelledby', 'listbox-label');
-
-multiselectedlistbox.addEventListener('keydown', e => {
-  let currentIndexM = multiselecteditems.findIndex(itemM => itemM === document.activeElement);
-
-  if (e.key === 'ArrowUp' && currentIndexM > 0) {
-    multiselecteditems[currentIndexM - 1].focus();
+    let multiselectedlistbox = document.querySelector('.listboxM');
+    let multiselecteditems = Array.from(multiselectedlistbox.children);
+  
+    multiselectedlistbox.setAttribute('role', 'listbox');
+    multiselectedlistbox.setAttribute('tabindex', '0');
+    multiselectedlistbox.setAttribute('aria-labelledby', 'listbox-label');
+  
+    multiselectedlistbox.addEventListener('keydown', e => {
+      let currentIndexM = multiselecteditems.findIndex(itemM => itemM === document.activeElement);
+  
+      if (e.key === 'ArrowUp' && currentIndexM > 0) {
+        e.preventDefault(); // Prevents scrolling the page
+        multiselecteditems[currentIndexM - 1].focus();
+      }
+  
+      if (e.key === 'ArrowDown' && currentIndexM < multiselecteditems.length - 1) {
+        e.preventDefault(); // Prevents scrolling the page
+        multiselecteditems[currentIndexM + 1].focus();
+      }
+  
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault(); // Prevents submitting forms, if any
+        toggleSelection(document.activeElement);
+      }
+    });
+  
+    multiselectedlistbox.addEventListener('click', e => {
+      let clickedItemM = e.target;
+      if (clickedItemM.classList.contains('listbox-itemM')) {
+        toggleSelection(clickedItemM);
+      }
+    });
+  
+    function toggleSelection(itemM) {
+      let isSelected = itemM.getAttribute('aria-selected') === 'true';
+      if (isSelected) {
+        itemM.setAttribute('aria-selected', 'false');
+        itemM.setAttribute('tabindex', '-1');
+      } else {
+        itemM.setAttribute('aria-selected', 'true');
+        itemM.setAttribute('tabindex', '0');
+      }
+    }
   }
-
-  if (e.key === 'ArrowDown' && currentIndexM < multiselecteditems.length - 1) {
-    multiselecteditems[currentIndexM + 1].focus();
-  }
-
-  if (e.key === ' ' || e.key === 'Enter') {
-    toggleSelection(document.activeElement);
-  }
-});
-
-multiselectedlistbox.addEventListener('click', e => {
-  let clickedItemM = e.target;
-  if (clickedItemM.classList.contains('listbox-itemM')) {
-    toggleSelection(clickedItemM);
-  }
-});
-
-function toggleSelection(itemM) {
-  let isSelected = itemM.getAttribute('aria-selected') === 'true';
-  if (isSelected) {
-    itemM.setAttribute('aria-selected', 'false');
-  } else {
-    itemM.setAttribute('aria-selected', 'true');
-  }
-}
-}
-
+  
 // Roving multiselect
 function Rovingmultiselect() {
-let selectedOptions = [];
-
-let selectedOptionsContainer = document.querySelector(".week-listRM");
-
-selectedOptionsContainer.addEventListener('keydown', e => {
-  let targetRM = e.target;
-  let key = e.key;
-
-  if (key === "ArrowUp" || key === "ArrowDown") {
-    navigateListbox(key);
-  } else if (key === " ") {
-    toggleOptionSelection(targetRM);
+    let selectedOptions = [];
+    let selectedOptionsContainer = document.querySelector(".week-listRM");
+  
+    selectedOptionsContainer.addEventListener('keydown', e => {
+      let targetRM = e.target;
+      let key = e.key;
+  
+      if (key === "ArrowUp" || key === "ArrowDown") {
+        e.preventDefault(); // Prevents scrolling the page
+        navigateListbox(key);
+      } else if (key === " ") {
+        e.preventDefault(); // Prevents submitting forms, if any
+        toggleOptionSelection(targetRM);
+      }
+    });
+  
+    function navigateListbox(key) {
+      let options = document.querySelectorAll('[role="option"]');
+      let currentIndexRM = Array.prototype.indexOf.call(options, document.activeElement);
+  
+      if (key === "ArrowUp" && currentIndexRM > 0) {
+        options[currentIndexRM - 1].focus();
+      } else if (key === "ArrowDown" && currentIndexRM < options.length - 1) {
+        options[currentIndexRM + 1].focus();
+      }
+    }
+  
+    function toggleOptionSelection(option) {
+      let isSelectedRM = option.getAttribute("aria-selected") === "true";
+  
+      if (isSelectedRM) {
+        option.setAttribute("aria-selected", "false");
+        option.classList.remove("selected");
+        selectedOptions.splice(selectedOptions.indexOf(option), 1);
+      } else {
+        option.setAttribute("aria-selected", "true");
+        option.classList.add("selected");
+        selectedOptions.push(option);
+      }
+    }
+  
+    selectedOptionsContainer.addEventListener('click', e => {
+      let targetHRM = e.target;
+  
+      if (targetHRM.getAttribute("role") === "option") {
+        toggleOptionSelection(targetHRM);
+      }
+    });
   }
-});
-
-function navigateListbox(key) {
-  let options = document.querySelectorAll('[role="option"]');
-  let currentIndexRM = Array.prototype.indexOf.call(options, document.activeElement);
-
-  if (key === "ArrowUp" && currentIndexRM > 0) {
-    options[currentIndexRM - 1].focus();
-  } else if (key === "ArrowDown" && currentIndexRM < options.length - 1) {
-    options[currentIndexRM + 1].focus();
-  }
-}
-
-function toggleOptionSelection(option) {
-  let isSelectedRM = option.getAttribute("aria-selected") === "true";
-
-  if (isSelectedRM) {
-    option.setAttribute("aria-selected", "false");
-    option.classList.remove("selected");
-    selectedOptions.splice(selectedOptions.indexOf(option), 1);
-  } else {
-    option.setAttribute("aria-selected", "true");
-    option.classList.add("selected");
-    selectedOptions.push(option);
-  }
-}
-
-selectedOptionsContainer.addEventListener('click', e => {
-  let targetHRM = e.target;
-
-  if (targetHRM.getAttribute("role") === "option") {
-    toggleOptionSelection(targetHRM);
-  }
-});
-}
+  
