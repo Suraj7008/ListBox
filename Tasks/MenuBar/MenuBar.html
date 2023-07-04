@@ -43,15 +43,6 @@
       padding: 5px 10px;
     }
 
-    .submenu a:hover {
-      background-color: #ddd;
-    }
-
-    .submenu a:focus {
-      outline: none;
-      background-color: #ccc;
-    }
-
     /* Show submenu when parent item is focused or hovered */
     .menubar li:focus .submenu,
     .menubar li:hover .submenu {
@@ -108,20 +99,21 @@
             submenuLinks[0].focus();
           }
         }
-      } if (key === 'ArrowRight') {
-        const nextItem = parentItem.nextElementSibling;
-        if (nextItem) {
-          const nextLink = nextItem.querySelector('.menu');
-          nextLink.focus();
+        }else if (key === 'ArrowRight') {
+            const nextItem = parentItem.nextElementSibling;
+            if (nextItem) {
+              const nextLink = nextItem.querySelector('.menu');
+              nextLink.focus();
+              console.log(nextLink)
+            }
+          } else if (key === 'ArrowLeft') {
+            const prevItem = parentItem.previousElementSibling;
+            if (prevItem) {
+              const prevLink = prevItem.querySelector('.menu');
+              prevLink.focus();
+            }
+          }
         }
-      } if (key === 'ArrowLeft') {
-        const prevItem = parentItem.previousElementSibling;
-        if (prevItem || prevsub) {
-          const prevLink = prevItem.querySelector('.menu');
-          prevLink.focus();
-        }
-      }
-    }
 
     // Function to close all submenus
     function closeSubmenus() {
@@ -143,11 +135,6 @@
       item.addEventListener('keydown', handleNavigation);
     });
 
-    // Attach event listeners to submenu items
-    const submenuItems = document.querySelectorAll('.submenu a');
-    submenuItems.forEach((item) => {
-      item.addEventListener('keydown', handleNavigation);
-    });
 
   </script>
 </body>
