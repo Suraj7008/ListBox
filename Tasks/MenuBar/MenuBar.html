@@ -95,44 +95,91 @@
                     siblingMenuItems[currentIndex - 1].querySelector('.menu').focus();
                 }
                 break;
+
             case 'ArrowRight':
                 event.preventDefault();
                 if (currentIndex < siblingMenuItems.length - 1) {
                     siblingMenuItems[currentIndex + 1].querySelector('.menu').focus();
                 }
                 break;
+
             case 'ArrowDown':
                 const submenu = parentMenuItem.querySelector('.submenu');
-        if (submenu && submenu.style.display !== 'block') {
-          event.preventDefault();
-          submenu.style.display = 'block';
-          const submenuLinks = submenu.querySelectorAll('a');
-          if (submenuLinks.length > 0) {
-            submenuLinks[0].focus();
-          }
-            }
-        break;
-        case 'Escape':
-        const submenus = document.querySelectorAll('.submenu');
-        const key = event.key;
-        const prevkey = key.previousElementSibling;
 
-        if (key === 'Escape') {
-        submenus.forEach((submenu) => {
-          submenu.style.display = 'none';
-        });
-        submenus.focus();
+                    if (submenu && submenu.style.display !== 'block') {
+                      event.preventDefault();
+                      submenu.style.display = 'block';
+                      const submenuLinks = submenu.querySelectorAll('a');
+                      if (submenuLinks.length > 0) {
+                        submenuLinks[0].focus();
+                    }   
+                }
+                break;
+            
+            case 'Escape':
+                const submenus = document.querySelectorAll('.submenu');
+                const key = event.key;
+                const prevkey = key.previousElementSibling;
+
+                    if (key === 'Escape') {
+                        submenus.forEach((submenu) => {
+                        submenu.style.display = 'none';
+                        });
+                        submenus.focus();
+                    }
+                break;
         }
-        break;
     }
-}
-    
+
     // Attach event listeners to menu items
     const menuItems = document.querySelectorAll('.menubar a');
-    menuItems.forEach((item) => {
-      item.addEventListener('keydown', handleNavigation);
-    });
+        menuItems.forEach((item) => {
+          item.addEventListener('keydown', handleNavigation);
+        });
 
+    // Function to handle submenu navigation
+    function handleSubmenuNavigation(event) {
+        const key = event.key;
+        const currentLink = event.target;
+        const parentItem = currentLink.parentNode.parentNode;
+        const submenu = parentItem.querySelector('.submenu');
+
+        if (key === 'ArrowRight') {
+              event.preventDefault();
+              
+              const nextLink = currentLink.nextElementSibling;
+
+              if (nextLink) {
+                nextLink.focus();
+
+        } else {
+
+                const firstLink = submenu.querySelector('a');
+
+            if (firstLink) {
+                  firstLink.focus();
+            }
+          }
+
+        } else if (key === 'ArrowLeft') {
+              event.preventDefault();
+              
+              const prevLink = currentLink.previousElementSibling;
+              
+            if (prevLink) {
+                prevLink.focus();
+            } else {
+                parentItem.querySelector('a').focus();
+            }
+        }
+    }
+
+    // Attach event listeners to submenu items
+    const submenuItems = document.querySelectorAll('.submenu a');
+    
+    submenuItems.forEach((item) => {
+          item.addEventListener('keydown', handleSubmenuNavigation);
+        });
 
   </script>
 </body>
