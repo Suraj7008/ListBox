@@ -1,58 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <title>Menubar</title>
-
 <style>
     /* Reset some default styles for consistency */
-body, h1, nav, ul, li {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
+    body, h1, nav, ul, li {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
 
-.menubar ul {
-  display: flex;
-}
+    .menubar ul {
+      display: flex;
+    }
 
-.menubar a {
-  text-decoration: none;
-  color: #333;
-  padding: 5px 10px;
-}
+    .menubar a {
+      background-color: #f0f0f0;
+      text-decoration: none;
+      color: #333;
+      padding: 5px 10px;
+    }
 
-.menubar a:hover {
-  background-color: #ddd;
-}
+    .menubar a:hover {
+      background-color: #ddd;
+    }
 
-.menubar a:focus {
-  outline: none;
-  background-color: #ccc;
-}
+    .menubar a:focus {
+      outline: none;
+      background-color: #ccc;
+    }
 
-/* Submenu style */
-.submenu {
-  display: none;
-  background-color: #f0f0f0;
-  padding: 10px;
-}
+    /* Submenu style */
+    .submenu {
+      display: none;
+      background-color: #f0f0f0;
+      padding: 10px;
+    }
 
-.submenu a {
-  text-decoration: none;
-  color: #333;
-  padding: 5px 10px;
-}
+    .submenu a {
+      text-decoration: none;
+      color: #333;
+      padding: 5px 10px;
+    }
 
-.submenu a:hover {
-  background-color: #ddd;
-}
+    .submenu a:hover {
+      background-color: #ddd;
+    }
 
-.submenu a:focus {
-  outline: none;
-  background-color: #ccc;
-}
+    .submenu a:focus {
+      outline: none;
+      background-color: #ccc;
+    }
 
+    /* Show submenu when parent item is focused or hovered */
+    .menubar li:focus .submenu,
+    .menubar li:hover .submenu {
+      display: inline-block;
+    }
 </style>
 </head>
 <body>
@@ -63,10 +67,10 @@ body, h1, nav, ul, li {
     <div class="menubar" id="menubar">
         <ul>
             <li>
-                <a role="menuitem" href="#home">Home</a>
+                <a class="menu" role="menuitem" href="#home">Home</a>
             </li>
             <li>
-                <a role="menuitem" href="#overview">Admissions</a>
+                <a class="menu" role="menuitem" href="#overview">Admissions</a>
                 <div class="submenu">
                     <a role="menuitem" href="#meetingroom">Apply</a>
                     <a role="menuitem" href="#mainhall">Tuition</a>
@@ -74,7 +78,7 @@ body, h1, nav, ul, li {
                 </div>
             </li>
             <li>
-                <a role="menuitem" href="#aboutus">About Us</a>
+                <a class="menu" role="menuitem" href="#aboutus">About Us</a>
                 <div class="submenu">
                     <a role="menuitem" href="#team">Overview</a>
                     <a role="menuitem" href="#mission">Contact Us</a>
@@ -85,6 +89,8 @@ body, h1, nav, ul, li {
   </nav>      
   <script>
 
+    document.addEventListener('keydown', closeSubmenus);
+
     // Function to handle keyboard navigation
     function handleNavigation(event) {
       const key = event.key;
@@ -93,65 +99,43 @@ body, h1, nav, ul, li {
 
       if (key === 'ArrowDown') {
         const submenu = parentItem.querySelector('.submenu');
-        if (submenu) {
+        if (submenu && submenu.style.display !== 'block') {
           event.preventDefault();
+          closeSubmenus();
+          submenu.style.display = 'block';
           const submenuLinks = submenu.querySelectorAll('a');
           if (submenuLinks.length > 0) {
             submenuLinks[0].focus();
           }
         }
-      } else if (key === 'ArrowUp') {
-        const submenu = parentItem.parentNode.querySelector('.submenu');
-        if (submenu) {
-          event.preventDefault();
-          const parentLink = submenu.previousElementSibling.querySelector('a');
-          parentLink.focus();
-        }
-      } else if (key === 'ArrowRight') {
+      } if (key === 'ArrowRight') {
         const nextItem = parentItem.nextElementSibling;
         if (nextItem) {
-          event.preventDefault();
-          const nextLink = nextItem.querySelector('a');
+          const nextLink = nextItem.querySelector('.menu');
           nextLink.focus();
         }
-      } else if (key === 'ArrowLeft') {
+      } if (key === 'ArrowLeft') {
         const prevItem = parentItem.previousElementSibling;
-        if (prevItem) {
-          event.preventDefault();
-          const prevLink = prevItem.querySelector('a');
+        if (prevItem || prevsub) {
+          const prevLink = prevItem.querySelector('.menu');
           prevLink.focus();
         }
       }
     }
 
-    // Function to handle submenu navigation
-    function handleSubmenuNavigation(event) {
-      const key = event.key;
-      const currentLink = event.target;
-      const submenu = currentLink.parentNode.parentNode;
-      const parentItem = submenu.parentNode;
+    // Function to close all submenus
+    function closeSubmenus() {
+        const submenus = document.querySelectorAll('.submenu');
+        const key = event.key;
+        const prevkey = key.previousElementSibling;
 
-      if (key === 'ArrowUp') {
-        event.preventDefault();
-        const previousLink = currentLink.parentNode.previousElementSibling.querySelector('a');
-        if (previousLink) {
-          previousLink.focus();
-        } else {
-          parentItem.querySelector('a').focus();
+        if (key === 'Escape') {
+        submenus.forEach((submenu) => {
+          submenu.style.display = 'none';
+        });
+        submenus.focus();
         }
-      } else if (key === 'ArrowDown') {
-        event.preventDefault();
-        const nextLink = currentLink.parentNode.nextElementSibling.querySelector('a');
-        if (nextLink) {
-          nextLink.focus();
-        } else {
-          parentItem.querySelector('a').focus();
-        }
-      } else if (key === 'ArrowLeft') {
-        event.preventDefault();
-        parentItem.querySelector('a').focus();
-      }
-    }
+    } 
 
     // Attach event listeners to menu items
     const menuItems = document.querySelectorAll('.menubar a');
@@ -162,8 +146,9 @@ body, h1, nav, ul, li {
     // Attach event listeners to submenu items
     const submenuItems = document.querySelectorAll('.submenu a');
     submenuItems.forEach((item) => {
-      item.addEventListener('keydown', handleSubmenuNavigation);
+      item.addEventListener('keydown', handleNavigation);
     });
+
   </script>
 </body>
 </html>
