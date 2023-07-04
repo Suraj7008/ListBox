@@ -18,7 +18,7 @@
       background-color: #f0f0f0;
       text-decoration: none;
       color: #333;
-      padding: 5px 10px;
+      padding: 5px 20px;
     }
 
     .menubar a:hover {
@@ -34,20 +34,17 @@
     .submenu {
       display: none;
       background-color: #f0f0f0;
-      padding: 10px;
     }
 
     .submenu a {
-      text-decoration: none;
-      color: #333;
-      padding: 5px 10px;
+        display:list-item;
     }
 
     /* Show submenu when parent item is focused or hovered */
     .menubar li:focus .submenu,
     .menubar li:hover .submenu {
-      display: inline-block;
-    }
+        display: block;
+    } 
 
 </style>
 </head>
@@ -56,6 +53,7 @@
   <header>
     <h1>MenuBar Example</h1>
   </header>
+  <br>
   <nav>
     <div class="menubar" id="menubar">
         <ul>
@@ -65,7 +63,7 @@
             <li>
                 <a class="menu" role="menuitem" href="#overview" tabindex="2">Admissions</a>
                 <div class="submenu">
-                    <a role="menuitem" href="#meetingroom" tabindex="3">Apply</a>
+                    <a  role="menuitem" href="#meetingroom" tabindex="3">Apply</a>
                     <a role="menuitem" href="#mainhall" tabindex="4">Tuition</a>
                     <a role="menuitem" href="#cabin" tabindex="5">Academics</a>
                 </div>
@@ -127,7 +125,7 @@
                         submenus.forEach((submenu) => {
                         submenu.style.display = 'none';
                         });
-                        submenus.focus();
+                        siblingMenuItems.focus();
                     }
                 break;
             }
@@ -141,8 +139,8 @@
         const submenu = parentItem.querySelector('.submenu');
 
         switch (event.key) {
-            case 'ArrowRight':
-                if (key === 'ArrowRight') {
+            case 'ArrowDown':
+                if (key === 'ArrowDown') {
 
                     const nextLink = currentLink.nextElementSibling;
                     if (nextLink) {
@@ -157,17 +155,42 @@
                 }
             break;
 
+            case 'ArrowUp':
+                if (key === 'ArrowUp') {
+
+                const prevLink = currentLink.previousElementSibling;
+                  if (prevLink) {
+                      prevLink.focus();
+                  } else {
+                      parentItem.querySelector('a').focus();
+                  }
+            }
+            break;
+
+            case 'ArrowRight': 
+            if (key === 'ArrowRight') {
+                 event.preventDefault();
+                             const nextItem = parentItem.nextElementSibling;
+                     const nextLink = nextItem.querySelector('a');
+                     if (nextItem) {
+                        nextLink.focus();
+                    }
+                    submenu.style.display = 'none';
+                }
+            break;
+
             case 'ArrowLeft':
-            const prevLink = currentLink.previousElementSibling;
-              
-              if (prevLink) {
-                  prevLink.focus();
-              } else {
-                  parentItem.querySelector('a').focus();
-              }
-              break;
-        }
+            if (key === 'ArrowLeft') {
+                const prevItem = parentItem.previousElementSibling;
+                const prevLink = prevItem.querySelector('a');
+                if (prevItem) {
+                      prevLink.focus();
+                }
+                submenu.style.display = 'none';
+            }
+
     }
+}
 
     // Attach event listeners to submenu items
     const submenuItems = document.querySelectorAll('.submenu a');
