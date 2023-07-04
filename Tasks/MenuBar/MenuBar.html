@@ -58,65 +58,61 @@
     <div class="menubar" id="menubar">
         <ul>
             <li>
-                <a class="menu" role="menuitem" href="#home">Home</a>
+                <a class="menu" role="menuitem" href="#home" tabindex="1">Home</a>
             </li>
             <li>
-                <a class="menu" role="menuitem" href="#overview">Admissions</a>
+                <a class="menu" role="menuitem" href="#overview" tabindex="2">Admissions</a>
                 <div class="submenu">
-                    <a role="menuitem" href="#meetingroom">Apply</a>
-                    <a role="menuitem" href="#mainhall">Tuition</a>
-                    <a role="menuitem" href="#cabin">Academics</a>
+                    <a role="menuitem" href="#meetingroom" tabindex="3">Apply</a>
+                    <a role="menuitem" href="#mainhall" tabindex="4">Tuition</a>
+                    <a role="menuitem" href="#cabin" tabindex="5">Academics</a>
                 </div>
             </li>
             <li>
-                <a class="menu" role="menuitem" href="#aboutus">About Us</a>
+                <a class="menu" role="menuitem" href="#aboutus" tabindex="6">About Us</a>
                 <div class="submenu">
-                    <a role="menuitem" href="#team">Overview</a>
-                    <a role="menuitem" href="#mission">Contact Us</a>
+                    <a role="menuitem" href="#team" tabindex="7">Overview</a>
+                    <a role="menuitem" href="#mission" tabindex="8">Contact Us</a>
                 </div>
             </li>
         </ul>
     </div>
-  </nav>      
+</nav>
+ 
   <script>
-
-    document.addEventListener('keydown', closeSubmenus);
-
+    
     // Function to handle keyboard navigation
     function handleNavigation(event) {
-      const key = event.key;
-      const currentLink = event.target;
-      const parentItem = currentLink.parentNode;
+        const currentMenuItem = event.target;
+        const parentMenuItem = currentMenuItem.parentElement;
+        const siblingMenuItems = Array.from(parentMenuItem.parentElement.children).filter(child => child.tagName === 'LI');
+        const currentIndex = siblingMenuItems.indexOf(parentMenuItem);
 
-      if (key === 'ArrowDown') {
-        const submenu = parentItem.querySelector('.submenu');
+        switch (event.key) {
+            case 'ArrowLeft':
+                event.preventDefault();
+                if (currentIndex > 0) {
+                    siblingMenuItems[currentIndex - 1].querySelector('.menu').focus();
+                }
+                break;
+            case 'ArrowRight':
+                event.preventDefault();
+                if (currentIndex < siblingMenuItems.length - 1) {
+                    siblingMenuItems[currentIndex + 1].querySelector('.menu').focus();
+                }
+                break;
+            case 'ArrowDown':
+                const submenu = parentMenuItem.querySelector('.submenu');
         if (submenu && submenu.style.display !== 'block') {
           event.preventDefault();
-          closeSubmenus();
           submenu.style.display = 'block';
           const submenuLinks = submenu.querySelectorAll('a');
           if (submenuLinks.length > 0) {
             submenuLinks[0].focus();
           }
-        }
-        }else if (key === 'ArrowRight') {
-            const nextItem = parentItem.nextElementSibling;
-            if (nextItem) {
-              const nextLink = nextItem.querySelector('.menu');
-              nextLink.focus();
-              console.log(nextLink)
             }
-          } else if (key === 'ArrowLeft') {
-            const prevItem = parentItem.previousElementSibling;
-            if (prevItem) {
-              const prevLink = prevItem.querySelector('.menu');
-              prevLink.focus();
-            }
-          }
-        }
-
-    // Function to close all submenus
-    function closeSubmenus() {
+        break;
+        case 'Escape':
         const submenus = document.querySelectorAll('.submenu');
         const key = event.key;
         const prevkey = key.previousElementSibling;
@@ -127,8 +123,10 @@
         });
         submenus.focus();
         }
-    } 
-
+        break;
+    }
+}
+    
     // Attach event listeners to menu items
     const menuItems = document.querySelectorAll('.menubar a');
     menuItems.forEach((item) => {
