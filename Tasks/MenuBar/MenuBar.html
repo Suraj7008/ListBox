@@ -48,8 +48,10 @@
     .menubar li:hover .submenu {
       display: inline-block;
     }
+
 </style>
 </head>
+
 <body>
   <header>
     <h1>MenuBar Example</h1>
@@ -79,8 +81,8 @@
     </div>
 </nav>
  
-  <script>
-    
+<script>
+
     // Function to handle keyboard navigation
     function handleNavigation(event) {
         const currentMenuItem = event.target;
@@ -128,14 +130,8 @@
                         submenus.focus();
                     }
                 break;
-        }
+            }
     }
-
-    // Attach event listeners to menu items
-    const menuItems = document.querySelectorAll('.menubar a');
-        menuItems.forEach((item) => {
-          item.addEventListener('keydown', handleNavigation);
-        });
 
     // Function to handle submenu navigation
     function handleSubmenuNavigation(event) {
@@ -144,43 +140,49 @@
         const parentItem = currentLink.parentNode.parentNode;
         const submenu = parentItem.querySelector('.submenu');
 
-        if (key === 'ArrowRight') {
-              event.preventDefault();
+        switch (event.key) {
+            case 'ArrowRight':
+                if (key === 'ArrowRight') {
+
+                    const nextLink = currentLink.nextElementSibling;
+                    if (nextLink) {
+                      nextLink.focus();
+                    
+                    } else {
+                      const firstLink = submenu.querySelector('a');
+                        if (firstLink) {
+                            firstLink.focus();
+                        }
+                    }
+                }
+            break;
+
+            case 'ArrowLeft':
+            const prevLink = currentLink.previousElementSibling;
               
-              const nextLink = currentLink.nextElementSibling;
-
-              if (nextLink) {
-                nextLink.focus();
-
-        } else {
-
-                const firstLink = submenu.querySelector('a');
-
-            if (firstLink) {
-                  firstLink.focus();
-            }
-          }
-
-        } else if (key === 'ArrowLeft') {
-              event.preventDefault();
-              
-              const prevLink = currentLink.previousElementSibling;
-              
-            if (prevLink) {
-                prevLink.focus();
-            } else {
-                parentItem.querySelector('a').focus();
-            }
+              if (prevLink) {
+                  prevLink.focus();
+              } else {
+                  parentItem.querySelector('a').focus();
+              }
+              break;
         }
     }
 
     // Attach event listeners to submenu items
     const submenuItems = document.querySelectorAll('.submenu a');
     
-    submenuItems.forEach((item) => {
+        submenuItems.forEach((item) => {
           item.addEventListener('keydown', handleSubmenuNavigation);
         });
+    
+    // Attach event listeners to menu items
+    const menuItems = document.querySelectorAll('.menubar a');
+        menuItems.forEach((item) => {
+          item.addEventListener('keydown', handleNavigation);
+        });
 
-  </script>
+
+</script>
 </body>
 </html>
