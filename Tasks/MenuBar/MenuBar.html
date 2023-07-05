@@ -63,16 +63,16 @@
             <li>
                 <a class="menu" role="menuitem" href="#overview" tabindex="2">Admissions</a>
                 <div class="submenu">
-                    <a  role="menuitem" href="#meetingroom" tabindex="3">Apply</a>
+                    <a role="menuitem" href="#meetingroom" tabindex="3">Apply</a>
                     <a role="menuitem" href="#mainhall" tabindex="4">Tuition</a>
-                    <a role="menuitem" href="#cabin" tabindex="5">Academics</a>
+                    <a class="submenu1" role="menuitem" href="#cabin" tabindex="5">Academics</a>
                 </div>
             </li>
             <li>
                 <a class="menu" role="menuitem" href="#aboutus" tabindex="6">About Us</a>
                 <div class="submenu">
                     <a role="menuitem" href="#team" tabindex="7">Overview</a>
-                    <a role="menuitem" href="#mission" tabindex="8">Contact Us</a>
+                    <a class="submenu2" role="menuitem" href="#mission" tabindex="8">Contact Us</a>
                 </div>
             </li>
         </ul>
@@ -80,56 +80,69 @@
 </nav>
  
 <script>
-
+    document.addEventListener('keydown', handleNavigation, handleSubmenuNavigation);
     // Function to handle keyboard navigation
     function handleNavigation(event) {
-        const currentMenuItem = event.target;
-        const parentMenuItem = currentMenuItem.parentElement;
-        const siblingMenuItems = Array.from(parentMenuItem.parentElement.children).filter(child => child.tagName === 'LI');
-        const currentIndex = siblingMenuItems.indexOf(parentMenuItem);
+    const currentMenuItem = event.target;
+    const parentMenuItem = currentMenuItem.parentElement;
+    const siblingMenuItems = Array.from(parentMenuItem.parentElement.children).filter(child => child.tagName === 'LI');
+    const currentIndex = siblingMenuItems.indexOf(parentMenuItem);
 
-        switch (event.key) {
-            case 'ArrowLeft':
-                event.preventDefault();
-                if (currentIndex > 0) {
-                    siblingMenuItems[currentIndex - 1].querySelector('.menu').focus();
-                }
-                break;
-
-            case 'ArrowRight':
-                event.preventDefault();
-                if (currentIndex < siblingMenuItems.length - 1) {
-                    siblingMenuItems[currentIndex + 1].querySelector('.menu').focus();
-                }
-                break;
-
-            case 'ArrowDown':
-                const submenu = parentMenuItem.querySelector('.submenu');
-
-                    if (submenu && submenu.style.display !== 'block') {
-                      event.preventDefault();
-                      submenu.style.display = 'block';
-                      const submenuLinks = submenu.querySelectorAll('a');
-                      if (submenuLinks.length > 0) {
-                        submenuLinks[0].focus();
-                    }   
-                }
-                break;
-            
-            case 'Escape':
-                const submenus = document.querySelectorAll('.submenu');
-                const key = event.key;
-                const prevkey = key.previousElementSibling;
-
-                    if (key === 'Escape') {
-                        submenus.forEach((submenu) => {
-                        submenu.style.display = 'none';
-                        });
-                        siblingMenuItems.focus();
-                    }
-                break;
+    switch (event.key) {
+        case 'ArrowLeft':
+            event.preventDefault();
+            if (currentIndex > 0) {
+                siblingMenuItems[currentIndex - 1].querySelector('.menu').focus();
             }
+            break;
+
+        case 'ArrowRight':
+            event.preventDefault();
+            if (currentIndex < siblingMenuItems.length - 1) {
+                siblingMenuItems[currentIndex + 1].querySelector('.menu').focus();
+            }
+            break;
+
+        case 'ArrowDown':
+            const submenu = parentMenuItem.querySelector('.submenu');
+
+            if (submenu && submenu.style.display !== 'block') {
+                event.preventDefault();
+                submenu.style.display = 'block';
+                const submenuLinks = submenu.querySelectorAll('a');
+                if (submenuLinks.length > 0) {
+                    submenuLinks[0].focus();
+                }   
+            }
+            break;
+
+            case 'ArrowUp':
+            const Usubmenu = parentMenuItem.querySelector('.submenu');
+
+            if (Usubmenu && Usubmenu.style.display !== 'block') {
+                event.preventDefault();
+                Usubmenu.style.display = 'block';
+                const submenuLinks = Usubmenu.querySelectorAll('a');
+                if (submenuLinks.length > 0) {
+                    document.querySelector('.submenu1').focus();
+                    document.querySelector('.submenu2').focus();
+                }   
+            }
+            break;
+
+        case 'Escape':
+            event.preventDefault();
+            closeSubmenus();
+            const parentItem = parentMenuItem.previousElementSibling;
+            if (parentItem) {
+                parentItem.focus();
+            } else {
+                document.querySelector('.menubar a').focus();
+            }
+            break;
     }
+}
+
 
     // Function to handle submenu navigation
     function handleSubmenuNavigation(event) {
@@ -161,8 +174,10 @@
                 const prevLink = currentLink.previousElementSibling;
                   if (prevLink) {
                       prevLink.focus();
+                      
                   } else {
-                      parentItem.querySelector('a').focus();
+                        document.querySelector('.submenu1').focus();
+                        document.querySelector('.submenu2').focus();
                   }
             }
             break;
@@ -193,6 +208,13 @@
     }
 }
 
+            function closeSubmenus(event) {
+              const submenu = document.querySelectorAll('.submenu');
+              submenu.forEach ((submenu) =>{
+                submenu.style.display='none';
+              });
+            }
+
     // Attach event listeners to submenu items
     const submenuItems = document.querySelectorAll('.submenu a');
     
@@ -205,7 +227,6 @@
         menuItems.forEach((item) => {
           item.addEventListener('keydown', handleNavigation);
         });
-
 
 </script>
 </body>
