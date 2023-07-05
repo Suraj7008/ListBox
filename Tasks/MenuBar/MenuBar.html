@@ -4,13 +4,13 @@
 <title>Menubar</title>
 <style>
     /* Reset some default styles for consistency */
-    body, h1, nav, ul, li {
+    body, h1, nav {
       margin: 0;
       padding: 0;
       list-style: none;
     }
 
-    .menubar ul {
+    .menubar {
       display: flex;
     }
 
@@ -56,26 +56,24 @@
   <br>
   <nav>
     <div class="menubar" id="menubar">
-        <ul>
-            <li>
-                <a class="menu" role="menuitem" href="#home" tabindex="1">Home</a>
-            </li>
-            <li>
-                <a class="menu" role="menuitem" href="#overview" tabindex="2">Admissions</a>
+            <div role="menu">
+                <a role="menuitem" class="menu" aria-label="Home"  tabindex="0">Home</a>
+            </div>
+            <div role="menu">
+                <a role="menuitem" class="menu" aria-label="Admissions" tabindex="-1">Admissions</a>
                 <div class="submenu">
-                    <a role="menuitem" href="#meetingroom" tabindex="3">Apply</a>
-                    <a role="menuitem" href="#mainhall" tabindex="4">Tuition</a>
-                    <a class="submenu1" role="menuitem" href="#cabin" tabindex="5">Academics</a>
+                    <a role="menuitem" aria-label="Apply" tabindex="-1">Apply</a>
+                    <a role="menuitem" aria-label="Tuition" tabindex="-1">Tuition</a>
+                    <a class="submenu1" aria-label="Academics" role="menuitem" tabindex="-1">Academics</a>
                 </div>
-            </li>
-            <li>
-                <a class="menu" role="menuitem" href="#aboutus" tabindex="6">About Us</a>
+            </div>
+            <div role="menu">
+                <a role="menuitem" class="menu" aria-label="About Us" tabindex="-1">About Us</a>
                 <div class="submenu">
-                    <a role="menuitem" href="#team" tabindex="7">Overview</a>
-                    <a class="submenu2" role="menuitem" href="#mission" tabindex="8">Contact Us</a>
+                    <a role="menuitem" aria-label="Overview" tabindex="-1">Overview</a>
+                    <a class="submenu2" aria-label="Contact Us" role="menuitem" tabindex="-1">Contact Us</a>
                 </div>
-            </li>
-        </ul>
+            </div> 
     </div>
 </nav>
  
@@ -85,7 +83,7 @@
     function handleNavigation(event) {
     const currentMenuItem = event.target;
     const parentMenuItem = currentMenuItem.parentElement;
-    const siblingMenuItems = Array.from(parentMenuItem.parentElement.children).filter(child => child.tagName === 'LI');
+    const siblingMenuItems = Array.from(parentMenuItem.parentElement.children);
     const currentIndex = siblingMenuItems.indexOf(parentMenuItem);
 
     switch (event.key) {
