@@ -55,21 +55,21 @@
   </header>
   <br>
   <nav>
-    <div class="menubar" id="menubar">
-            <div role="menu">
+    <div role="menubar" class="menubar" id="menubar">
+            <div role="none">
                 <a role="menuitem" class="menu" aria-label="Home"  tabindex="0">Home</a>
             </div>
-            <div role="menu">
+            <div role="none">
                 <a role="menuitem" class="menu" aria-label="Admissions" tabindex="-1">Admissions</a>
-                <div class="submenu">
+                <div role="menu" class="submenu">
                     <a role="menuitem" aria-label="Apply" tabindex="-1">Apply</a>
                     <a role="menuitem" aria-label="Tuition" tabindex="-1">Tuition</a>
                     <a class="submenu1" aria-label="Academics" role="menuitem" tabindex="-1">Academics</a>
                 </div>
             </div>
-            <div role="menu">
+            <div role="none">
                 <a role="menuitem" class="menu" aria-label="About Us" tabindex="-1">About Us</a>
-                <div class="submenu">
+                <div role="menu" class="submenu">
                     <a role="menuitem" aria-label="Overview" tabindex="-1">Overview</a>
                     <a class="submenu2" aria-label="Contact Us" role="menuitem" tabindex="-1">Contact Us</a>
                 </div>
@@ -104,7 +104,7 @@
         case 'ArrowDown':
             const submenu = parentMenuItem.querySelector('.submenu');
 
-            if (submenu && submenu.style.display !== 'block') {
+            if (submenu) {
                 event.preventDefault();
                 submenu.style.display = 'block';
                 const submenuLinks = submenu.querySelectorAll('a');
