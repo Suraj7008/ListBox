@@ -60,7 +60,7 @@
                 <a role="menuitem" class="menu" aria-label="Home"  tabindex="0">Home</a>
             </div>
             <div role="none">
-                <a role="menuitem" class="menu" aria-label="Admissions" tabindex="-1">Admissions</a>
+                <a role="menuitem" aria-expanded="false" class="menu" aria-label="Admissions" tabindex="-1">Admissions</a>
                 <div role="menu" class="submenu">
                     <a role="menuitem" aria-label="Apply" tabindex="-1">Apply</a>
                     <a role="menuitem" aria-label="Tuition" tabindex="-1">Tuition</a>
@@ -68,7 +68,7 @@
                 </div>
             </div>
             <div role="none">
-                <a role="menuitem" class="menu" aria-label="About Us" tabindex="-1">About Us</a>
+                <a role="menuitem" aria-expanded="false" class="menu" aria-label="About Us" tabindex="-1">About Us</a>
                 <div role="menu" class="submenu">
                     <a role="menuitem" aria-label="Overview" tabindex="-1">Overview</a>
                     <a class="submenu2" aria-label="Contact Us" role="menuitem" tabindex="-1">Contact Us</a>
@@ -103,13 +103,22 @@
 
         case 'ArrowDown':
             const submenu = parentMenuItem.querySelector('.submenu');
+            const sub = document.querySelectorAll('.menu');
+            const firstLink = submenu.querySelector('a');
+            console.log(sub)
 
             if (submenu) {
                 event.preventDefault();
                 submenu.style.display = 'block';
                 const submenuLinks = submenu.querySelectorAll('a');
                 if (submenuLinks.length > 0) {
+                    
                     submenuLinks[0].focus();
+                    firstLink.setAttribute('aria-expanded','true');
+                    if (sub == submenuLinks[0].focus()) {
+                    sub[1].setAttribute('aria-expanded','true');
+                    sub[2].setAttribute('aria-expanded','true');
+                    }
                 }   
             }
             break;
@@ -132,8 +141,11 @@
             event.preventDefault();
             closeSubmenus();
             const parentItem = parentMenuItem.previousElementSibling;
+            const Esub = document.querySelectorAll('.menu');
             if (parentItem) {
                 parentItem.focus();
+                Esub[1].setAttribute('aria-expanded','false')
+                Esub[2].setAttribute('aria-expanded','false')
             } else {
                 document.querySelector('.menubar a').focus();
             }
@@ -152,10 +164,11 @@
         switch (event.key) {
             case 'ArrowDown':
                 if (key === 'ArrowDown') {
-
+                    
                     const nextLink = currentLink.nextElementSibling;
                     if (nextLink) {
                       nextLink.focus();
+                      
                     
                     } else {
                       const firstLink = submenu.querySelector('a');
@@ -210,6 +223,7 @@
               const submenu = document.querySelectorAll('.submenu');
               submenu.forEach ((submenu) =>{
                 submenu.style.display='none';
+                // submenu.setAttribute('aria-expanded','false');
               });
             }
 
