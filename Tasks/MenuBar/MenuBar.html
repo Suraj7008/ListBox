@@ -61,7 +61,7 @@
             </div>
             <div role="none">
                 <a role="menuitem" aria-expanded="false" class="menu" aria-label="Admissions" tabindex="-1">Admissions</a>
-                <div role="menu" class="submenu" >
+                <div role="menu" class="submenu" aria-expanded="false">
                     <a role="menuitem" aria-label="Apply" tabindex="-1">Apply</a>
                     <a role="menuitem" aria-label="Tuition" tabindex="-1">Tuition</a>
                     <a class="submenu1" aria-label="Academics" role="menuitem" tabindex="-1">Academics</a>
@@ -104,7 +104,7 @@
         case 'ArrowDown':
             const submenu = parentMenuItem.querySelector('.submenu');
             const sub = document.querySelectorAll('.menu');
-            const firstLink = submenu.querySelectorAll('.submenu');
+            // const firstLink = submenu.querySelector('.submenu a');
             console.log(sub)
 
             if (submenu) {
@@ -115,6 +115,9 @@
                     submenu.style.display = 'block';
                     submenuLinks[0].focus();
                     currentMenuItem.setAttribute('aria-expanded','true');
+                    submenuLinks[0].setAttribute('aria-expanded','true');
+                    sub[0].setAttribute('tabindex','-1');
+                    submenuLinks[0].setAttribute('tabindex','0');
                 }
             }
             break;
@@ -135,7 +138,7 @@
 
         case 'Escape':
             event.preventDefault();
-            closeSubmenus();
+            closeSubmenus(); 
             const parentItem = parentMenuItem.previousElementSibling;
             const Esub = document.querySelectorAll('.menu');
             if (parentItem) {
@@ -156,17 +159,22 @@
         const currentLink = event.target;
         const parentItem = currentLink.parentNode.parentNode;
         const submenu = parentItem.querySelector('.submenu');
+        const item = document.querySelectorAll('.submenu')
+        
 
         switch (event.key) {
             case 'ArrowDown':
                 if (key === 'ArrowDown') {
                     
                     const nextLink = currentLink.nextElementSibling;
+                    const prevLink = currentLink.previousElementSibling;
                     if (nextLink) {
                       nextLink.focus();
-                      
-                    
-                    } else {
+                      currentLink.setAttribute('tabindex','-1');
+                      nextLink.setAttribute('tabindex','0');
+                      prevLink.setAttribute('tabindex','-1');
+                    } 
+                    else {
                       const firstLink = submenu.querySelector('a');
                         if (firstLink) {
                             firstLink.focus();
@@ -177,11 +185,13 @@
 
             case 'ArrowUp':
                 if (key === 'ArrowUp') {
-
+                    const nextLink = currentLink.nextElementSibling;
                 const prevLink = currentLink.previousElementSibling;
                   if (prevLink) {
                       prevLink.focus();
-                      
+                      prevLink.setAttribute('tabindex','0');
+                      currentLink.setAttribute('tab index','-1');
+                      nextLink.setAttribute('tabindex','-1');
                   } else {
                         document.querySelector('.submenu1').focus();
                         document.querySelector('.submenu2').focus();
