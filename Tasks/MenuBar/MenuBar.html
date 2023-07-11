@@ -45,12 +45,19 @@
     .submenuitem {
         display: none;
     }
+
     .submenu:hover .submenuitem{
       background-color: #ddd;
       padding-left: 80%; /* Increase the padding to create an expand effect */
       display: flex;
-      
     }
+
+    .submenu:focus .submenuitem{
+      background-color: #ddd;
+      padding-left: 80%; /* Increase the padding to create an expand effect */
+      display: flex;
+    }
+
   </style>
   
 </head>
@@ -77,10 +84,15 @@
                 <a role="menuitem" aria-expanded="false" class="menu" aria-label="About Us" tabindex="-1">About Us</a>
                 <div role="menu" class="submenu" aria-expanded="false">
                     <a role="menuitem" aria-label="Overview" tabindex="-1">Overview</a>
-                    <a class="submenu2" aria-label="Contact Us" role="menuitem" tabindex="-1">Contact Us</a>
+                    <a aria-label="Contact Us" role="menuitem" tabindex="-1">Contact Us</a>
+                    <a class="submenu2" aria-label="Contact Us" role="menuitem" tabindex="-1">Admissions
+                        <svg xmlns="http://www.w3.org/2000/svg" class="right" width="9" height="12" viewBox="0 0 9 12">
+                            <polygon points="0 1, 0 11, 8 6"></polygon>
+                        </svg>
+                    </a>
                         <div role="menu" class="submenuitem" aria-expanded="false">
-                            <a role="menuitem" class="submenuitem1" aria-label="classes" tabindex="-1">classes</a>
-                            <a role="menuitem" class="submenuitem1" aria-label="courses" tabindex="-1">courses</a>
+                            <a role="menuitem" class="submenuitem1" aria-label="classes" tabindex="-1">Classes</a>
+                            <a role="menuitem" class="submenuitem1" aria-label="courses" tabindex="-1">Courses</a>
                         </div>
                 </div>
             </div> 
@@ -102,64 +114,64 @@
             if (currentIndex > 0) {
                 siblingMenuItems[currentIndex - 1].querySelector('.menu').focus();
             }
-            break;
+        break;
 
         case 'ArrowRight':
             event.preventDefault();
             if (currentIndex < siblingMenuItems.length - 1) {
                 siblingMenuItems[currentIndex + 1].querySelector('.menu').focus();
+                event.stopPropagation();
             }
-            break;
+        break;
 
         case 'ArrowDown':
             const submenu = parentMenuItem.querySelector('.submenu');
             const sub = document.querySelectorAll('.menu');
-
-            if (submenu) {
-                event.preventDefault();
-                submenu.style.display = 'block';
-                const submenuLinks = submenu.querySelectorAll('a');
-                if (submenuLinks.length > 0) {
+                if (submenu) {
+                    event.preventDefault();
                     submenu.style.display = 'block';
-                    submenuLinks[0].focus();
-                    currentMenuItem.setAttribute('aria-expanded','true');
-                    // submenuLinks[0].setAttribute('aria-expanded','true');
-                    sub[0].setAttribute('tabindex','-1');
-                    // submenuLinks[0].setAttribute('tabindex','0');
+                    const submenuLinks = submenu.querySelectorAll('a');
+                    if (submenuLinks.length > 0) {
+                        submenu.style.display = 'block';
+                        submenuLinks[0].focus();
+                        currentMenuItem.setAttribute('aria-expanded','true');
+                        // submenuLinks[0].setAttribute('aria-expanded','true');
+                        sub[0].setAttribute('tabindex','-1');
+                        // submenuLinks[0].setAttribute('tabindex','0');
+                    }
                 }
-            }
-            break;
+        break;
 
-            case 'ArrowUp':
+        case 'ArrowUp':
             const Usubmenu = parentMenuItem.querySelector('.submenu');
-
-            if (Usubmenu && Usubmenu.style.display !== 'block') {
-                event.preventDefault();
-                Usubmenu.style.display = 'block';
-                const submenuLinks = Usubmenu.querySelectorAll('a');
-                if (submenuLinks.length > 0) {
-                    document.querySelector('.submenu1').focus();
-                    document.querySelector('.submenu2').focus();
-                }   
-            }
-            break;
+                if (Usubmenu && Usubmenu.style.display !== 'block') {
+                    event.preventDefault();
+                    Usubmenu.style.display = 'block';
+                    const submenuLinks = Usubmenu.querySelectorAll('a');
+                    if (submenuLinks.length > 0) {
+                        document.querySelector('.submenu1').focus();
+                        document.querySelector('.submenu2').focus();
+                    }   
+                }
+        break;
 
         case 'Escape':
             event.preventDefault();
+            closeSubmenussub();
             closeSubmenus(); 
-            const parentItem = parentMenuItem.previousElementSibling;
-            const Esub = document.querySelectorAll('.menu');
-            if (parentItem) {
-                parentItem.focus();
-                Esub[1].setAttribute('aria-expanded','false')
-                Esub[2].setAttribute('aria-expanded','false')
-            } else {
-                document.querySelector('.menubar a').focus();
-            }
+            
+                const parentItem = parentMenuItem.previousElementSibling;
+                const Esub = document.querySelectorAll('.menu');
+                const mSub = document.querySelectorAll('.submenu');
+
+                    if (parentItem) {
+                        parentItem.focus();
+                        Esub[1].setAttribute('aria-expanded','false')
+                        Esub[2].setAttribute('aria-expanded','false')
+                    }
             break;
     }
 }
-
 
     // Function to handle submenu navigation
     function handleSubmenuNavigation(event) {
@@ -167,117 +179,91 @@
         const currentLink = event.target;
         const parentItem = currentLink.parentNode.parentNode;
         const submenu = parentItem.querySelector('.submenu');
-        const item = document.querySelectorAll('.submenu')
+        const submenuItems = submenu.querySelectorAll('a');
+        const submenuitem = parentItem.querySelector('.submenuitem');
         
 
         switch (event.key) {
             case 'ArrowDown':
                 if (key === 'ArrowDown') {
-                    
-                    const nextLink = currentLink.nextElementSibling;
-                    const prevLink = currentLink.previousElementSibling;
-                    if (nextLink) {
-                      nextLink.focus();
-                      currentLink.setAttribute('tabindex','-1');
-                      nextLink.setAttribute('tabindex','0');
-                      prevLink.setAttribute('tabindex','-1');
-                    } 
-                    else {
-                      const firstLink = submenu.querySelector('a');
-                        if (firstLink) {
-                            firstLink.focus();
+                  const currentIndex = Array.from(submenuItems).indexOf(currentLink);
+                  const nextIndex = (currentIndex + 1) % submenuItems.length;
+                  const nextLink = submenuItems[nextIndex];
+                  nextLink.focus();
+                  submenuItems.forEach(item => item.setAttribute('tabindex', '-1'));
+                  nextLink.setAttribute('tabindex', '0');
+                  submenuitem.style.display = 'none';
+                }
+                break;
+
+                case 'ArrowUp':
+                    if (key === 'ArrowUp') {
+                        const nextLink = currentLink.nextElementSibling;
+                        const prevLink = currentLink.previousElementSibling;
+                            if (prevLink) {
+                                prevLink.focus();
+
+                                prevLink.setAttribute('tabindex','0');
+                                currentLink.setAttribute('tab index','-1');
+                                nextLink.setAttribute('tabindex','-1');
+                            } else {
+                                  document.querySelector('.submenu1').focus();
+                                  document.querySelector('.submenu2').focus();
+                                  event.stopPropagation();
+                            }
+                    }
+                break;
+
+                case 'ArrowRight':
+                    if (key === 'ArrowRight') {
+                        event.preventDefault();
+                        
+                        const subsubmenuItems = submenuitem.querySelectorAll('a');
+                        if (subsubmenuItems.length > 0) {
+                            submenuitem.style.display = 'flex';
+                          subsubmenuItems[0].focus();
+                          subsubmenuItems.forEach(item => item.setAttribute('tabindex', '-1'));
+                          subsubmenuItems[0].setAttribute('tabindex', '0');
+                        }
+                        
+                    }
+                break;
+
+                case 'ArrowLeft':
+                    if (key === 'ArrowLeft') {
+                        const prevItem = parentItem.previousElementSibling;
+                        const prevLink = prevItem.querySelector('a');
+                        const Esub = document.querySelectorAll('.menu');
+                        if (prevItem) {
+                          prevLink.focus();
+                          Esub[1].setAttribute('aria-expanded', 'false');
+                          Esub[2].setAttribute('aria-expanded', 'false');
+                          submenu.style.display = 'none';
                         }
                     }
-                }
-            break;
-
-            case 'ArrowUp':
-                if (key === 'ArrowUp') {
-                    const nextLink = currentLink.nextElementSibling;
-                const prevLink = currentLink.previousElementSibling;
-                  if (prevLink) {
-                      prevLink.focus();
-                      prevLink.setAttribute('tabindex','0');
-                      currentLink.setAttribute('tab index','-1');
-                      nextLink.setAttribute('tabindex','-1');
-                  } else {
-                        document.querySelector('.submenu1').focus();
-                        document.querySelector('.submenu2').focus();
-                  }
-            }
-            break;
-
-            case 'ArrowRight': 
-            if (key === 'ArrowRight') {
-                 event.preventDefault();
-                    const nextItem = parentItem.nextElementSibling;
-                    const nextLink = nextItem.querySelector('a');
-                    const Esub = document.querySelectorAll('.menu');
-                    // const submenusub = document.querySelector('.submenuitem');
-                    // console.log(submenusub)
-                     if (nextItem) {
-                        nextLink.focus();
-                            Esub[1].setAttribute('aria-expanded','false');
-                            Esub[2].setAttribute('aria-expanded','false');
-                            // submenusub[0].focus();
-
-                    }
-                    submenu.style.display = 'none';
-                }
-
-            break;
-
-            case 'ArrowLeft':
-            if (key === 'ArrowLeft') {
-                const prevItem = parentItem.previousElementSibling;
-                const prevLink = prevItem.querySelector('a');
-                const Esub = document.querySelectorAll('.menu');
-                if (prevItem) {
-                    prevLink.focus();
-                        Esub[1].setAttribute('aria-expanded','false')
-                        Esub[2].setAttribute('aria-expanded','false')
-                }
-                submenu.style.display = 'none';
-            }
-            break;
-
-    }
-}
-
-function subsubItem(e) {
-    switch(e.key){
-    case 'ArrowRight': 
-            if (key === 'ArrowRight') {
-                //  event.preventDefault();
-                    const currentelement = e.key;
-                    const nextLink = nextItem.querySelector('a');
-                    const Esub = document.querySelectorAll('.menu');
-                    // const submenusub = document.querySelector('.submenuitem');
-                    console.log(submenusub)
-                     if (nextItem) {
-                        nextLink.focus();
-                            Esub[1].setAttribute('aria-expanded','false');
-                            Esub[2].setAttribute('aria-expanded','false');
-                            // submenusub[0].focus();
-
-                    }
-                    submenu.style.display = 'none';
-                }
-
-            break;
+                break;
         }
 }
+    function closeSubmenus(event) {
+      const submenu = document.querySelectorAll('.submenu');
+      
 
-            function closeSubmenus(event) {
-              const submenu = document.querySelectorAll('.submenu');
-              submenu.forEach ((submenu) =>{
-                submenu.style.display='none';
-              });
-            }
+      submenu.forEach ((submenu) =>{
+        submenu.style.display='none';
+      });
+    
+        
+    }
+    function closeSubmenussub(event) {
+        const subitem = document.querySelectorAll('.submenuitem');
+
+        subitem.forEach((subitem) => {
+            subitem.style.display='none';
+        });
+    }
 
     // Attach event listeners to submenu items
     const submenuItems = document.querySelectorAll('.submenu a');
-    
         submenuItems.forEach((item) => {
           item.addEventListener('keydown', handleSubmenuNavigation);
         });
@@ -288,10 +274,11 @@ function subsubItem(e) {
           item.addEventListener('keydown', handleNavigation);
         });
 
-        const subitem = document.querySelectorAll('.submenuitem a');
+    const subitem = document.querySelectorAll('.submenuitem a');
         subitem.forEach((item) => {
           item.addEventListener('keydown', handleSubmenuNavigation);
         });
+
 </script>
 </body>
 </html>
