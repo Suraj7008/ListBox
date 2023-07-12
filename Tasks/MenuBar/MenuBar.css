@@ -1,0 +1,54 @@
+
+.menubar {
+    display: flex;
+    list-style: none;
+  }
+
+  .menubar a {
+    background-color: #f0f0f0;
+    text-decoration: none;
+    color: #333;
+    padding: 5px 25px;
+  }
+
+  .menubar a:hover {
+    background-color: #ddd;
+    width: 70px;
+  }
+
+  .menubar a:focus {
+    outline: none;
+    background-color: #ccc;
+  }
+
+  /* Submenu style */
+  .submenu {
+    display: none;
+    background-color: #f0f0f0;
+  }
+
+  .submenu a {
+    display: list-item;
+  }
+
+  /* Show submenu when parent item is focused or hovered */
+  .menubar > div:hover .submenu {
+    display: block;
+  }
+
+  /* Expand effect on submenuitem hover */
+  .submenuitem {
+      display: none;
+  }
+
+  .submenu:hover .submenuitem{
+    background-color: #ddd;
+    padding-left: 80%; /* Increase the padding to create an expand effect */
+    display: flex;
+  }
+
+  .submenu:focus .submenuitem{
+    background-color: #ddd;
+    padding-left: 80%; /* Increase the padding to create an expand effect */
+    display: flex;
+  }

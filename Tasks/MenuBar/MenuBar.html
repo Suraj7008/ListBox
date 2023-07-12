@@ -2,72 +2,15 @@
 <html lang="en">
 <head>
 <title>Menubar</title>
-<style>
-  
-    .menubar {
-      display: flex;
-      list-style: none;
-    }
-  
-    .menubar a {
-      background-color: #f0f0f0;
-      text-decoration: none;
-      color: #333;
-      padding: 5px 25px;
-    }
-  
-    .menubar a:hover {
-      background-color: #ddd;
-      width: 70px;
-    }
-  
-    .menubar a:focus {
-      outline: none;
-      background-color: #ccc;
-    }
-  
-    /* Submenu style */
-    .submenu {
-      display: none;
-      background-color: #f0f0f0;
-    }
-  
-    .submenu a {
-      display: list-item;
-    }
-  
-    /* Show submenu when parent item is focused or hovered */
-    .menubar > div:hover .submenu {
-      display: block;
-    }
-  
-    /* Expand effect on submenuitem hover */
-    .submenuitem {
-        display: none;
-    }
-
-    .submenu:hover .submenuitem{
-      background-color: #ddd;
-      padding-left: 80%; /* Increase the padding to create an expand effect */
-      display: flex;
-    }
-
-    .submenu:focus .submenuitem{
-      background-color: #ddd;
-      padding-left: 80%; /* Increase the padding to create an expand effect */
-      display: flex;
-    }
-
-  </style>
-  
+<link rel="stylesheet" href="MenuBar.css">  
 </head>
-
 <body>
   <header>
     <h1>MenuBar Example</h1>
   </header>
   <br>
-  <nav>
+
+<nav>
     <div role="menubar" class="menubar" id="menubar">
             <div role="none">
                 <a role="menuitem" class="menu" aria-label="Home"  tabindex="0">Home</a>
@@ -85,196 +28,22 @@
                 <div role="menu" class="submenu" aria-expanded="false">
                     <a role="menuitem" aria-label="Overview" tabindex="-1">Overview</a>
                     <a aria-label="Contact Us" role="menuitem" tabindex="-1">Contact Us</a>
-                    <a class="submenu2" aria-label="Contact Us" role="menuitem" tabindex="-1">Admissions
+                    <div>
+                    <li><a class="submenu2" aria-label="Contact Us" role="menuitem" tabindex="-1">Admissions
                         <svg xmlns="http://www.w3.org/2000/svg" class="right" width="9" height="12" viewBox="0 0 9 12">
                             <polygon points="0 1, 0 11, 8 6"></polygon>
                         </svg>
-                    </a>
-                        <div role="menu" class="submenuitem" aria-expanded="false">
-                            <a role="menuitem" class="submenuitem1" aria-label="classes" tabindex="-1">Classes</a>
-                            <a role="menuitem" class="submenuitem1" aria-label="courses" tabindex="-1">Courses</a>
-                        </div>
+                    </a></li>
+                        <ul class="submenuitem" aria-expanded="false">
+                            <li><a role="menuitem" class="submenuitem1" aria-label="classes" tabindex="-1">Classes</a></li>
+                            <li><a role="menuitem" class="submenuitem2" aria-label="courses" tabindex="-1">Courses</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div> 
     </div>
 </nav>
  
-<script>
-    document.addEventListener('keydown', handleNavigation, handleSubmenuNavigation);
-    // Function to handle keyboard navigation
-    function handleNavigation(event) {
-    const currentMenuItem = event.target;
-    const parentMenuItem = currentMenuItem.parentElement;
-    const siblingMenuItems = Array.from(parentMenuItem.parentElement.children);
-    const currentIndex = siblingMenuItems.indexOf(parentMenuItem);
-
-    switch (event.key) {
-        case 'ArrowLeft':
-            event.preventDefault();
-            if (currentIndex > 0) {
-                siblingMenuItems[currentIndex - 1].querySelector('.menu').focus();
-            }
-        break;
-
-        case 'ArrowRight':
-            event.preventDefault();
-            if (currentIndex < siblingMenuItems.length - 1) {
-                siblingMenuItems[currentIndex + 1].querySelector('.menu').focus();
-                event.stopPropagation();
-            }
-        break;
-
-        case 'ArrowDown':
-            const submenu = parentMenuItem.querySelector('.submenu');
-            const sub = document.querySelectorAll('.menu');
-                if (submenu) {
-                    event.preventDefault();
-                    submenu.style.display = 'block';
-                    const submenuLinks = submenu.querySelectorAll('a');
-                    if (submenuLinks.length > 0) {
-                        submenu.style.display = 'block';
-                        submenuLinks[0].focus();
-                        currentMenuItem.setAttribute('aria-expanded','true');
-                        // submenuLinks[0].setAttribute('aria-expanded','true');
-                        sub[0].setAttribute('tabindex','-1');
-                        // submenuLinks[0].setAttribute('tabindex','0');
-                    }
-                }
-        break;
-
-        case 'ArrowUp':
-            const Usubmenu = parentMenuItem.querySelector('.submenu');
-                if (Usubmenu && Usubmenu.style.display !== 'block') {
-                    event.preventDefault();
-                    Usubmenu.style.display = 'block';
-                    const submenuLinks = Usubmenu.querySelectorAll('a');
-                    if (submenuLinks.length > 0) {
-                        document.querySelector('.submenu1').focus();
-                        document.querySelector('.submenu2').focus();
-                    }   
-                }
-        break;
-
-        case 'Escape':
-            event.preventDefault();      
-                const parentItem = parentMenuItem.previousElementSibling;
-                const Esub = document.querySelectorAll('.menu');
-                const mSub = document.querySelectorAll('.submenu');
-                const currentLink = event.target;
-                const SparentItem = currentLink.parentNode.parentNode;
-                const submenuitem = SparentItem.querySelector('.submenuitem');
- 
-                    if (parentItem) {
-                        parentItem.focus();
-                        Esub[1].setAttribute('aria-expanded','false')
-                        Esub[2].setAttribute('aria-expanded','false')
-                    }
-                    if (SparentItem) {
-                        submenuitem.style.display = 'none';
-                        submenu.style.display = 'flex';
-                        SparentItem.querySelector('.submenu').focus();
-                    }
-                    
-        break;
-    }
-}
-
-    // Function to handle submenu navigation
-    function handleSubmenuNavigation(event) {
-        const key = event.key;
-        const currentLink = event.target;
-        const parentItem = currentLink.parentNode.parentNode;
-        const submenu = parentItem.querySelector('.submenu');
-        const submenuItems = submenu.querySelectorAll('a');
-        const submenuitem = parentItem.querySelector('.submenuitem');
-        
-
-        switch (event.key) {
-            case 'ArrowDown':
-                if (key === 'ArrowDown') {
-                  const currentIndex = Array.from(submenuItems).indexOf(currentLink);
-                  const nextIndex = (currentIndex + 1) % submenuItems.length;
-                  const nextLink = submenuItems[nextIndex];
-                  nextLink.focus();
-                  submenuItems.forEach(item => item.setAttribute('tabindex', '-1'));
-                  nextLink.setAttribute('tabindex', '0');
-                  submenuitem.style.display = 'none';
-                }
-                break;
-
-                case 'ArrowUp':
-                    if (key === 'ArrowUp') {
-                        const nextLink = currentLink.nextElementSibling;
-                        const prevLink = currentLink.previousElementSibling;
-                            if (prevLink) {
-                                prevLink.focus();
-                                prevLink.setAttribute('tabindex','0');
-                                currentLink.setAttribute('tab index','-1');
-                                nextLink.setAttribute('tabindex','-1');
-                            } else {
-                                  document.querySelector('.submenu1').focus();
-                                  document.querySelector('.submenu2').focus();
-                                  event.stopPropagation();
-                            }
-                    }
-                break;
-
-                case 'ArrowRight':
-                    if (key === 'ArrowRight') {
-                        event.preventDefault();
-                        
-                        const subsubmenuItems = submenuitem.querySelectorAll('a');
-                        if (subsubmenuItems.length > 0) {
-                            submenuitem.style.display = 'flex';
-                          subsubmenuItems[0].focus();
-                          subsubmenuItems.forEach(item => item.setAttribute('tabindex', '-1'));
-                          subsubmenuItems[0].setAttribute('tabindex', '0');
-                        }
-                        
-                    }
-                break;
-
-                case 'ArrowLeft':
-                    if (key === 'ArrowLeft') {
-                        const prevItem = parentItem.previousElementSibling;
-                        const prevLink = prevItem.querySelector('a');
-                        const Esub = document.querySelectorAll('.menu');
-                        if (prevItem) {
-                          prevLink.focus();
-                          Esub[1].setAttribute('aria-expanded', 'false');
-                          Esub[2].setAttribute('aria-expanded', 'false');
-                          submenu.style.display = 'none';
-                        }
-                    }
-                break;
-        }
-}
-    function closeSubmenus(event) {
-      const submenu = document.querySelectorAll('.submenu');
-      
-
-      submenu.forEach ((submenu) =>{
-        submenu.style.display='none';
-      });   
-    }
-
-    // Attach event listeners to submenu items
-    const submenuItems = document.querySelectorAll('.submenu a');
-        submenuItems.forEach((item) => {
-          item.addEventListener('keydown', handleSubmenuNavigation);
-        });
-    
-    // Attach event listeners to menu items
-    const menuItems = document.querySelectorAll('.menubar a');
-        menuItems.forEach((item) => {
-          item.addEventListener('keydown', handleNavigation);
-        });
-
-    const subitem = document.querySelectorAll('.submenuitem a');
-        subitem.forEach((item) => {
-          item.addEventListener('keydown', handleSubmenuNavigation);
-        });
-
-</script>
+<script src="MenuBar.js"></script>
 </body>
 </html>
