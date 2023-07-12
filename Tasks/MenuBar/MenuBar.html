@@ -156,20 +156,26 @@
         break;
 
         case 'Escape':
-            event.preventDefault();
-            closeSubmenussub();
-            closeSubmenus(); 
-            
+            event.preventDefault();      
                 const parentItem = parentMenuItem.previousElementSibling;
                 const Esub = document.querySelectorAll('.menu');
                 const mSub = document.querySelectorAll('.submenu');
-
+                const currentLink = event.target;
+                const SparentItem = currentLink.parentNode.parentNode;
+                const submenuitem = SparentItem.querySelector('.submenuitem');
+ 
                     if (parentItem) {
                         parentItem.focus();
                         Esub[1].setAttribute('aria-expanded','false')
                         Esub[2].setAttribute('aria-expanded','false')
                     }
-            break;
+                    if (SparentItem) {
+                        submenuitem.style.display = 'none';
+                        submenu.style.display = 'flex';
+                        SparentItem.querySelector('.submenu').focus();
+                    }
+                    
+        break;
     }
 }
 
@@ -202,7 +208,6 @@
                         const prevLink = currentLink.previousElementSibling;
                             if (prevLink) {
                                 prevLink.focus();
-
                                 prevLink.setAttribute('tabindex','0');
                                 currentLink.setAttribute('tab index','-1');
                                 nextLink.setAttribute('tabindex','-1');
@@ -250,16 +255,7 @@
 
       submenu.forEach ((submenu) =>{
         submenu.style.display='none';
-      });
-    
-        
-    }
-    function closeSubmenussub(event) {
-        const subitem = document.querySelectorAll('.submenuitem');
-
-        subitem.forEach((subitem) => {
-            subitem.style.display='none';
-        });
+      });   
     }
 
     // Attach event listeners to submenu items
