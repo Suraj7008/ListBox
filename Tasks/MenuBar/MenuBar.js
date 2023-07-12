@@ -48,7 +48,7 @@ function handleNavigation(event) {
 
     case 'Escape':
       event.preventDefault();
-    //   closeSubmenus();
+      closeSubmenus();
       const parentItem = parentMenuItem.previousElementSibling;
       const submenuitem = parentMenuItem.querySelector('.submenuitem');
       if (parentItem) {
