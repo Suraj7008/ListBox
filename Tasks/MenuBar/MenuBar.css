@@ -1,54 +1,72 @@
-
 .menubar {
     display: flex;
-    list-style: none;
+    /* justify-content: space-between; */
   }
-
-  .menubar a {
-    background-color: #f0f0f0;
-    text-decoration: none;
+  
+  .menu {
+    position: relative;
+    display: inline-block;
+    padding: 10px;
     color: #333;
-    padding: 5px 25px;
+    text-decoration: none;
   }
-
-  .menubar a:hover {
-    background-color: #ddd;
-    width: 70px;
+  
+  .menu:hover {
+    background-color: #f0f0f0;
   }
-
-  .menubar a:focus {
-    outline: none;
-    background-color: #ccc;
-  }
-
-  /* Submenu style */
+  
   .submenu {
     display: none;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+  }
+  
+  /* .menu:focus .submenu {
+    display: block;
+  } */
+  
+  .submenu a {
+    display: block;
+    padding: 5px;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .submenu a:hover {
     background-color: #f0f0f0;
   }
-
-  .submenu a {
-    display: list-item;
+  
+  /* .right {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+  } */
+  
+  .submenuitem {
+    display: none;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
   }
-
-  /* Show submenu when parent item is focused or hovered */
-  .menubar > div:hover .submenu {
+  
+  /* .submenuitem a {
+    display: block;
+    padding: 5px;
+    color: #333;
+    text-decoration: none;
+  } */
+  
+  /* .submenuitem a:hover {
+    background-color: #f0f0f0;
+  } */
+  
+  .submenu.open {
     display: block;
   }
-
-  /* Expand effect on submenuitem hover */
-  .submenuitem {
-      display: none;
-  }
-
-  .submenu:hover .submenuitem{
-    background-color: #ddd;
-    padding-left: 80%; /* Increase the padding to create an expand effect */
-    display: flex;
-  }
-
-  .submenu:focus .submenuitem{
-    background-color: #ddd;
-    padding-left: 80%; /* Increase the padding to create an expand effect */
-    display: flex;
-  }
+  
+  /* .submenuitem.open {
+    display: block;
+  } */
+  
