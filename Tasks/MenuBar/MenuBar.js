@@ -1,5 +1,4 @@
 document.addEventListener('keydown', handleKeyDown);
-// document.addEventListener('keydown', handlesubmenu);
 
 function handleKeyDown(event) {
     const menubar = document.getElementById('menubar');
@@ -10,13 +9,16 @@ function handleKeyDown(event) {
     const isSubSubMenuOpen = focusedElement.parentElement.classList.contains('submenuitem');
     let nextElement;
     const submenu = parentItem.querySelector('.submenu');
-  const submenuitem = parentItem.querySelector('.submenuitem')
+    const submenuitem = parentItem.querySelector('.submenuitem')
+    const sub = document.querySelectorAll(".submenu");
     switch (event.key) {
       case 'ArrowRight':
         if (!isSubMenuOpen) {
             nextElement = focusedElement.parentElement.nextElementSibling;
             if (nextElement) {
               nextElement.querySelector('a').focus();
+            //   sub[1].setAttributeAttribute('aria-expanden','true');
+            //   sub[2].setAttributeAttribute('aria-expanden','true');
               event.preventDefault();
               event.stopPropagation();
             }
@@ -35,13 +37,13 @@ function handleKeyDown(event) {
           if (previousElement) {
             previousElement.querySelector('a').focus();
             event.preventDefault();
-            // event.stopPropagation();
           }
         } else {
             const prevItem = parentItem.previousElementSibling;
             const prevLink = prevItem.querySelector('a');
                 if (prevItem) {
                     prevLink.focus();
+                    // prevLink.setAttribute('aria-expanded','false');
                     submenu.classList.remove('open');
                     event.preventDefault();
                 }
@@ -53,7 +55,6 @@ function handleKeyDown(event) {
           if (nextElement) {
             nextElement.focus();
             event.preventDefault();
-            // event.stopPropagation();
           }
         } else {
           const submenu = focusedElement.nextElementSibling;
@@ -61,8 +62,7 @@ function handleKeyDown(event) {
             submenu.classList.add('open');
             submenu.querySelector('a').focus();
             event.preventDefault();
-            // event.stopPropagation();
-          } // else contion to br added
+          }
           else {
             const newElement = focusedElement.nextElementSibling;
             if (newElement){
@@ -83,8 +83,7 @@ function handleKeyDown(event) {
             const previousElement = focusedElement.previousElementSibling;
             if (previousElement) {
               previousElement.focus();
-            //   event.preventDefault();
-            //   event.stopPropagation();
+              event.preventDefault();
             }
           }
         break;
@@ -93,14 +92,16 @@ function handleKeyDown(event) {
       if (isSubMenuOpen) {
         submenu.classList.remove('open');
         submenu.previousElementSibling.focus();
-        console.log(submenu.previousElementSibling);
+        // submenu.previousElementSibling.setAttribute("aria-expanded","false")
         event.preventDefault();
         event.stopPropagation();
       } else {
         if (isSubSubMenuOpen) {
-            submenuitem.classList.remove('open');
+            // submenuitem.classList.remove('open');
             submenuitem.previousElementSibling.focus();
-            console.log(submenuitem.previousElementSibling);
+            submenuitem.classList.remove('open');
+            event.preventDefault();
+            event.stopPropagation();
         }
       }
       break;

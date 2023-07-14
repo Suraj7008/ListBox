@@ -13,6 +13,7 @@
   
   .menu:hover {
     background-color: #f0f0f0;
+    display: block;
   }
   
   .submenu {
@@ -22,9 +23,17 @@
     border: 1px solid #ccc;
   }
   
-  /* .menu:focus .submenu {
+  .menubar :hover .submenu {
     display: block;
-  } */
+  }
+
+  .menubar :hover .submenuitem {
+    display: block;
+  }
+  
+  .menu:focus .submenu {
+    display: block;
+  }
   
   .submenu a {
     display: block;
@@ -37,7 +46,7 @@
     background-color: #f0f0f0;
   }
   
-  /* .right {
+  /* .menu .right :hover {
     position: absolute;
     top: 50%;
     right: 10px;
@@ -58,9 +67,9 @@
     text-decoration: none;
   } */
   
-  /* .submenuitem a:hover {
+  .submenuitem a:hover {
     background-color: #f0f0f0;
-  } */
+  }
   
   .submenu.open {
     display: block;
