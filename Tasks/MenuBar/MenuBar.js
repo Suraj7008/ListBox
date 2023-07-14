@@ -22,14 +22,22 @@ function handleKeyDown(event) {
               event.preventDefault();
               event.stopPropagation();
             }
-          } else {
-            if (isSubMenuOpen) {
+          } else if (isSubMenuOpen && focusedElement.nextElementSibling.classList.contains('submenuitem')) {
                 submenuitem.style.display='flex';
                 focusedElement.nextElementSibling.querySelector('a').focus();
                 event.preventDefault();
                 event.stopPropagation();
+              } else {
+                const nextItem = parentItem.nextElementSibling;
+                const NextLink = nextItem.querySelector('a');
+                  if (NextLink) {
+                    NextLink.focus();
+                      // prevLink.setAttribute('aria-expanded','false');
+                      submenu.classList.remove('open');
+                      event.preventDefault();
+                  }
               }
-          }
+          
         break;
       case 'ArrowLeft':
         if (!isSubMenuOpen) {
@@ -99,7 +107,7 @@ function handleKeyDown(event) {
         if (isSubSubMenuOpen) {
             // submenuitem.classList.remove('open');
             submenuitem.previousElementSibling.focus();
-            submenuitem.classList.remove('open');
+            submenuitem.style.display='none';
             event.preventDefault();
             event.stopPropagation();
         }
